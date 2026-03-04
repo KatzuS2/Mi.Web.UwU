@@ -1,63 +1,71 @@
-/* Reset y Base */
-body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-serif; background:#0b0014; color:white; }
+/* Configuración de Selección y Colores */
+::selection { background: #ff00ff; color: #fff; text-shadow: 0 0 10px #fff; }
+body, html { margin:0; padding:0; overflow:hidden; font-family:'Courier New', monospace; background:#05000a; color:#fff; }
+
 #bgCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
 
-/* Título UwU con Brillitos */
-.title-container {
-    position: fixed; top: 35%; width: 100%; text-align: center; z-index: 10;
-}
+/* Título con Brillitos Pro */
+.title-container { position: fixed; top: 25%; width: 100%; text-align: center; z-index: 5; pointer-events: none; }
 .title {
-    font-size: 130px; font-weight: 900; color: #ff66cc;
-    text-shadow: 0 0 20px #ff33cc, 0 0 40px #ff66cc;
-    animation: pulse 2s infinite alternate;
-    margin: 0;
-}
-.title::after {
-    content: '✨'; position: absolute; font-size: 40px;
-    animation: sparkle 1.5s infinite; opacity: 0;
+    font-size: 150px; color: #ff66cc; margin: 0;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff;
+    animation: glow 1.5s infinite alternate;
 }
 
-@keyframes sparkle {
-    0% { transform: scale(0); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: scale(1.5) translate(20px, -20px); opacity: 0; }
-}
-@keyframes pulse {
-    from { transform: scale(1); filter: drop-shadow(0 0 10px #ff33cc); }
-    to { transform: scale(1.05); filter: drop-shadow(0 0 30px #ff66cc); }
+@keyframes glow {
+    from { filter: brightness(1) drop-shadow(0 0 10px #ff00ff); }
+    to { filter: brightness(1.5) drop-shadow(0 0 30px #ff00ff); }
 }
 
-/* Mascota Kawaii Mejorada */
-.pet {
-  width: 90px; height: 90px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffcce6, #ff33cc);
-  box-shadow: 0 0 35px #ff66cc, inset -4px -4px 10px rgba(0,0,0,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 40px; cursor: pointer; border: 4px solid white;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: floatPet 4s ease-in-out infinite;
+/* Botones Bonitos */
+.btn-neon, .btn-ctrl {
+    background: linear-gradient(145deg, #ff00ff, #800080);
+    border: 2px solid #fff; border-radius: 12px; color: white;
+    font-weight: bold; cursor: pointer; transition: 0.3s;
+    box-shadow: 0 0 10px #ff00ff;
 }
-.pet:hover { transform: scale(1.2) rotate(10deg); }
+.btn-neon:hover { transform: translateY(-3px); box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #fff; }
 
-@keyframes floatPet {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-/* Barra de Música Neon */
+/* Reproductor Neón */
 .music-bar {
-  position:fixed; top:0; left:0; width:100%; padding:15px;
-  display:flex; align-items:center; gap:12px;
-  background: rgba(15, 0, 30, 0.8); backdrop-filter:blur(15px);
-  border-bottom: 2px solid #ff33cc; z-index:20;
+    position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.9);
+    border-bottom: 3px solid #ff00ff; display: flex; align-items: center;
+    padding: 15px; gap: 20px; z-index: 100; backdrop-filter: blur(10px);
 }
-.music-bar input { flex: 2; background: rgba(255,255,255,0.1); border:1px solid #ff33cc; color:white; padding:8px; border-radius:10px; }
-.music-bar button { background:#ff33cc; border:none; padding:8px 15px; border-radius:10px; color:white; cursor:pointer; font-weight:bold; }
 
-/* Otros elementos */
-.layout { position:fixed; top:180px; right:20px; display:flex; flex-direction:column; gap:20px; z-index:15; }
-.ai-chat { width:320px; height:350px; background:rgba(0,0,0,0.6); border:2px solid #33ccff; border-radius:20px; display:flex; flex-direction:column; }
-.msg { padding:8px; border-radius:10px; margin:5px; font-size:13px; }
-.ai { background: rgba(51, 204, 255, 0.2); align-self: flex-start; }
-.user { background: #ff33cc; align-self: flex-end; }
-.horoscope { position:fixed; left:20px; bottom:20px; width:220px; background:rgba(0,0,0,0.6); border:2px solid #ff33cc; border-radius:15px; padding:10px; }
+/* Tamagotchi 90s */
+.tamagotchi-case {
+    position: absolute; width: 120px; height: 150px;
+    background: #ffec3d; border-radius: 50% 50% 40% 40%;
+    border: 5px solid #d4af37; box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+    padding: 10px; z-index: 200; cursor: move;
+}
+.pet-screen {
+    background: #9cad7d; width: 80px; height: 70px; margin: 15px auto;
+    border: 4px solid #555; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+}
+.pet { font-size: 24px; color: #2b3a1a; font-weight: bold; }
+.t-buttons { display: flex; justify-content: center; gap: 10px; }
+.t-buttons span { width: 15px; height: 15px; background: #ff4444; border-radius: 50%; border: 2px solid #000; }
+
+/* Chat e IA */
+.main-content { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 20px; z-index: 50; }
+.ai-chat {
+    width: 350px; height: 400px; background: rgba(10,10,10,0.95);
+    border: 3px solid #00ffcc; border-radius: 15px; display: flex; flex-direction: column;
+    box-shadow: 0 0 20px #00ffcc;
+}
+.chat-body { flex: 1; overflow-y: auto; padding: 15px; color: #00ffcc; font-size: 14px; }
+
+/* Horóscopo */
+.horoscope-card {
+    width: 300px; background: rgba(20,0,40,0.9); border: 3px solid #ff00ff;
+    border-radius: 15px; padding: 15px; box-shadow: 0 0 20px #ff00ff;
+}
+.h-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.h-item { background: #330033; padding: 5px; text-align: center; border-radius: 5px; cursor: pointer; border: 1px solid #ff00ff; font-size: 12px; }
+.h-item:hover { background: #ff00ff; }
+.h-result { font-size: 13px; font-style: italic; color: #ffccff; border-top: 1px solid #ff00ff; padding-top: 10px; }
+
+.yt-hidden { position: fixed; bottom: -1000px; }
