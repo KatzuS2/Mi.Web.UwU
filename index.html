@@ -103,6 +103,7 @@ cursor:pointer;
 
 <div class="title">UwU</div>
 
+
 <!-- REPRODUCTOR -->
 <div class="cloud-player">
   <div class="cloud-shape"></div>
@@ -147,7 +148,36 @@ setInterval(() => {
   document.title = toggle ? "UwU 💖" : "✨ UwU ✨";
   toggle = !toggle;
 }, 1000);
-  
+
+  /* BURBUJAS PASTEL */
+function createBubble(){
+const bubble = document.createElement("div");
+bubble.classList.add("bubble-bg");
+
+let size = Math.random()*60 + 20;
+bubble.style.width = size+"px";
+bubble.style.height = size+"px";
+bubble.style.left = Math.random()*100+"vw";
+
+const colors = [
+"#ffd6f6",
+"#ffb3ec",
+"#c8f1ff",
+"#e0bbff",
+"#b5ead7"
+];
+
+bubble.style.background = colors[Math.floor(Math.random()*colors.length)];
+bubble.style.animationDuration = (Math.random()*6 + 4)+"s";
+
+document.body.appendChild(bubble);
+
+setTimeout(()=>{
+bubble.remove();
+},10000);
+}
+
+setInterval(createBubble, 500);
   
   /* YOUTUBE */
 function loadYT(){
