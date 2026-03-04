@@ -11,78 +11,61 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
   z-index:0;
 }
 
-/* Reproductor nube */
-.cloud-player{
+/* Barra reproductor */
+.music-bar{
   position:fixed;
-  top:20px;
-  left:20px;
-  width:300px;
-  padding:20px;
-  border-radius:40px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  backdrop-filter: blur(25px);
-  box-shadow:0 0 50px #ff66cc, 0 0 80px #ff33cc inset;
-  z-index:10;
-  animation: float 4s ease-in-out infinite alternate;
-}
-
-/* Float animation */
-@keyframes float{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-15px);}
-}
-
-/* Inputs y botones */
-.cloud-player input{
-  width:100%; padding:10px; border-radius:12px; border:none;
-  background:rgba(255,255,255,0.08); color:white;
-}
-
-.cloud-player button{
-  margin-top:8px;
+  top:0;
+  left:0;
   width:100%;
-  padding:10px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:linear-gradient(90deg,#ff33cc,#ff66cc);
-  color:white;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-.cloud-player button:hover{
-  transform:scale(1.05);
-}
-
-/* Player controls */
-.player-controls{
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
   display:flex;
   align-items:center;
-  margin-top:10px;
   gap:10px;
+  padding:10px 20px;
+  box-shadow:0 0 30px #ff33cc;
+  z-index:10;
+}
+
+.music-bar input, .music-bar select{
+  background: rgba(255,255,255,0.08);
+  border:none; color:white; padding:6px; border-radius:8px;
+}
+
+.music-bar button{
+  background:linear-gradient(90deg,#ff33cc,#ff66cc);
+  border:none; padding:6px 12px; border-radius:8px; cursor:pointer;
 }
 
 #progressBar{
-  flex:1;
-  height:8px;
-  background:rgba(255,255,255,0.1);
-  border-radius:4px;
-  overflow:hidden;
+  flex:1; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden;
 }
-
 #progress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#ff33cc,#ff66cc);
-  border-radius:4px;
-  transition:0.2s;
+  width:0%; height:100%; background:linear-gradient(90deg,#ff33cc,#ff66cc); border-radius:3px; transition:0.2s;
 }
 
-/* Layout */
+/* Título neon */
+.title{
+  text-align:center;
+  font-size:100px;
+  font-weight:900;
+  color:#ff33cc;
+  text-shadow:
+    0 0 5px #ff33cc,
+    0 0 10px #ff66cc,
+    0 0 20px #ff33cc,
+    0 0 30px #ff66cc,
+    0 0 40px #ff33cc;
+  position:fixed;
+  width:100%;
+  top:60px;
+  z-index:10;
+}
+
+/* Layout principal */
 .layout{
   position:fixed;
-  top:150px;
+  top:200px;
   right:20px;
   display:flex;
   flex-direction:column;
@@ -90,100 +73,44 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
   z-index:10;
 }
 
-/* Chat futurista */
+/* Chat */
 .ai-chat{
   width:350px;
-  height:450px;
-  border-radius:25px;
+  height:400px;
   background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(25px);
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 0 50px #33ccff, 0 0 80px #66ccff inset;
+  backdrop-filter:blur(20px);
+  border-radius:25px;
   display:flex;
   flex-direction:column;
+  box-shadow:0 0 30px #33ccff;
 }
-
-.chat-header{
-  padding:10px;
-  font-weight:bold;
-  text-align:center;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-}
-
-.chat-body{
-  flex:1;
-  overflow-y:auto;
-  padding:10px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.msg{
-  padding:8px 12px;
-  border-radius:14px;
-  max-width:70%;
-  font-size:14px;
-}
-
+.chat-header{ padding:10px; font-weight:bold; text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); }
+.chat-body{ flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px; }
+.msg{ padding:8px 12px; border-radius:14px; max-width:70%; font-size:14px; }
 .user{align-self:flex-end; background:#ff33cc;}
 .ai{align-self:flex-start; background:rgba(255,255,255,0.1);}
+.chat-input{ display:flex; gap:10px; padding:10px; }
+.chat-input input{ flex:1; padding:8px; border-radius:10px; border:none; background:rgba(255,255,255,0.08); color:white; }
+.chat-input button{ padding:8px 14px; border-radius:10px; border:none; background:#ff33cc; cursor:pointer; color:white; }
 
-.chat-input{
-  display:flex;
-  gap:10px;
-  padding:10px;
-}
-
-.chat-input input{
-  flex:1; padding:8px; border-radius:10px; border:none; background:rgba(255,255,255,0.08); color:white;
-}
-
-.chat-input button{
-  padding:8px 14px;
-  border-radius:10px;
-  border:none;
-  background:#ff33cc;
-  cursor:pointer;
-  color:white;
-}
-
-/* Tamagotchi */
-.tamagotchi{
-  display:flex;
-  justify-content:center;
-  margin-top:20px;
-}
-
+/* Tamagotchi años 90 */
+.tamagotchi{ display:flex; justify-content:center; margin-top:20px; }
 .pet{
-  width:50px; height:50px;
-  background:#ff33cc;
-  border-radius:50%;
-  position:relative;
-  box-shadow:0 0 20px #ff33cc;
-  animation: bounce 1s infinite alternate;
+  width:80px; height:80px; background:#ff33cc; border-radius:20%;
+  position:relative; box-shadow:0 0 15px #ff33cc;
 }
+.pet::before{ content:""; position:absolute; top:20px; left:20px; width:10px; height:10px; background:black; box-shadow:40px 0 black; }
+.pet::after{ content:""; position:absolute; bottom:15px; left:20px; width:40px; height:8px; background:black; }
 
-@keyframes bounce{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-15px);}
+/* Horóscopo */
+.horoscope{
+  width:200px; background:rgba(255,255,255,0.05); border-radius:20px;
+  backdrop-filter:blur(15px); padding:10px; text-align:center; box-shadow:0 0 20px #ff33cc;
 }
+.horoscope-header{ font-weight:bold; margin-bottom:10px; }
+.horoscope-body{ font-size:18px; margin-bottom:10px; }
+.horoscope-controls button{ background:#ff33cc; border:none; border-radius:8px; padding:5px 10px; cursor:pointer; color:white; margin:0 5px; }
 
-.pet::before{
-  content:"";
-  position:absolute;
-  top:15px; left:12px;
-  width:6px; height:6px;
-  background:black;
-  box-shadow:16px 0 black;
-}
-
-.pet::after{
-  content:"";
-  position:absolute;
-  bottom:10px; left:12px;
-  width:16px; height:4px;
-  background:black;
-}
-
-/* Cursor partículas: handled by particles.js */
+/* Animaciones */
+@keyframes bounce{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}
+.pet{ animation:bounce 1s infinite alternate; }
