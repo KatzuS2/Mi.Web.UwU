@@ -46,15 +46,18 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 .chat-input input{ flex:1; padding:8px; border-radius:10px; border:none; background:rgba(255,255,255,0.08); color:white; }
 .chat-input button{ padding:8px 14px; border-radius:10px; border:none; background:#ff33cc; cursor:pointer; color:white; }
 
-/* Tamagotchi pixel art */
-.tamagotchi{ display:flex; justify-content:center; margin-top:20px; }
+/* Tamagotchi kawaii peludito */
+.tamagotchi{ display:flex; justify-content:center; margin-top:20px; position:relative; }
 .pet{
-  width:80px; height:80px; background:#ff33cc; border-radius:20%; position:absolute; box-shadow:0 0 20px #ff33cc;
-  cursor:pointer; transition:0.2s; animation:bounce 1s infinite alternate;
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(to bottom,#ff99cc,#ff33cc);
+  box-shadow:0 0 30px #ff66cc;
+  position:absolute;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; color:white;
+  transition:all 0.2s;
+  cursor:pointer;
 }
-.pet::before{ content:""; position:absolute; top:20px; left:20px; width:10px; height:10px; background:black; box-shadow:40px 0 black; }
-.pet::after{ content:""; position:absolute; bottom:15px; left:20px; width:40px; height:8px; background:black; }
-@keyframes bounce{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}
 
 /* Horóscopo */
 .horoscope{
@@ -63,9 +66,16 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 }
 .horoscope-header{ font-weight:bold; margin-bottom:10px; }
 .horoscope-body{ font-size:14px; display:flex; flex-wrap:wrap; justify-content:space-around; gap:5px; }
-.horoscope-body div{ background:#ff33cc; border-radius:8px; padding:4px 6px; font-size:12px; }
+.horoscope-body div{ background:#ff33cc; border-radius:8px; padding:4px 6px; font-size:12px; cursor:pointer; }
 
 /* Clima */
 .weather{
   position:fixed; left:260px; bottom:20px; color:white; font-size:14px; text-align:left;
+}
+
+/* Animación Tamagotchi */
+@keyframes walk{
+  0%{transform:translateX(0) rotate(0deg);}
+  50%{transform:translateX(10px) rotate(5deg);}
+  100%{transform:translateX(0) rotate(0deg);}
 }
