@@ -48,7 +48,7 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 /* Tamagotchi pixel art */
 .tamagotchi{ display:flex; justify-content:center; margin-top:20px; }
 .pet{
-  width:80px; height:80px; background:#ff33cc; border-radius:20%; position:relative; box-shadow:0 0 20px #ff33cc;
+  width:80px; height:80px; background:#ff33cc; border-radius:20%; position:absolute; box-shadow:0 0 20px #ff33cc;
   cursor:pointer; transition:0.2s; animation:bounce 1s infinite alternate;
 }
 .pet::before{ content:""; position:absolute; top:20px; left:20px; width:10px; height:10px; background:black; box-shadow:40px 0 black; }
