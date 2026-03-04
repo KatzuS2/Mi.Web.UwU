@@ -140,8 +140,15 @@ cursor:pointer;
 </div>
 
 <script>
-
-/* YOUTUBE */
+/* titulo de uwu**/
+  let toggle = true;
+setInterval(() => {
+  document.title = toggle ? "UwU 💖" : "✨ UwU ✨";
+  toggle = !toggle;
+}, 1000);
+  
+  
+  /* YOUTUBE */
 function loadYT(){
 let link=document.getElementById("ytlink").value;
 if(link.includes("watch?v=")){
