@@ -4,17 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UwU Virtual World 💖</title>
+    <title>Kawaii Neon World UwU 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <canvas id="bgCanvas"></canvas>
-
-<div class="music-bar">
+<canvas id="trailCanvas"></canvas> <div class="music-bar">
   <div class="search-group">
-    <input type="text" id="audioURL" placeholder="Escribe canción o pega link... 🎵">
-    <button class="btn-neon" onclick="loadAudio()">🔍 Buscar</button>
+    <input type="text" id="audioURL" placeholder="Escribe canción o artista... 🎵">
+    <button class="btn-neon" onclick="searchAndPlay()">🔍 Buscar y Reproducir</button>
   </div>
   <div class="controls">
     <button class="btn-ctrl" id="playBtn">▶️</button>
@@ -22,10 +21,8 @@
   </div>
   <div class="radio-group">
     <select id="radioCategory" onchange="updateRadioList()">
-      <option value="">📻 Género</option>
-      <option value="lofi">Lofi/Estudio</option>
-      <option value="retro">80s Retro</option>
-      <option value="kpop">K-Pop</option>
+      <option value="">📻 Género Radio</option>
+      <option value="anime">Anime Hits</option>
     </select>
     <select id="radioSelect" onchange="changeRadio()">
       <option value="">Selecciona emisora</option>
@@ -35,35 +32,30 @@
   <audio id="audio" crossorigin="anonymous"></audio>
 </div>
 
-<div class="title-container">
-    <h1 class="title">UwU</h1>
+<div class="uwu-system-container">
     <div class="sparkle-effect"></div>
+    <div id="uwuPlanet" class="uwu-planet">
+        <h1 class="title">UwU</h1>
+    </div>
+    <div id="horoscopeOrbit" class="horoscope-orbit">
+        </div>
 </div>
 
 <div class="main-content">
   <div class="ai-chat">
-    <div class="chat-header">🌐 NEURAL INTERFACE (Wiki-Enabled)</div>
-    <div class="chat-body" id="chatBody"></div>
-    <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Pregunta lo que sea...">
-      <button onclick="sendMessage()">Enviar</button>
+    <div class="chat-header">🌸 NEURAL NYAN-TERFACE UwU</div>
+    <div class="chat-body" id="chatBody">
+        <div class="msg ai">¡Hola! Soy tu asistente Nyan-tástica. ¡Pregúntame lo que quieras! 🐾</div>
     </div>
-  </div>
-
-  <div class="horoscope-card">
-    <div class="h-header">🪐 Oráculo Estelar</div>
-    <div id="horoscopeBody" class="h-grid"></div>
-    <div id="horoscopeResult" class="h-result">Selecciona tu signo para ver tu destino...</div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Escribe tu pregunta nyan...">
+      <button class="btn-kawaii" onclick="sendMessage()">Enviar ✨</button>
+    </div>
   </div>
 </div>
 
-<div class="tamagotchi-case" id="petContainer">
-    <div class="pet-screen">
-        <div class="pet" id="pet">v(^_^)v</div>
-    </div>
-    <div class="t-buttons">
-        <span></span><span></span><span></span>
-    </div>
+<div class="kitty-pet" id="kittyPet">
+    <div class="kitty-sprite">🐈</div>
 </div>
 
 <div id="youtubeContainer" class="yt-hidden"></div>
