@@ -1,28 +1,29 @@
-// Crear el elemento de la mascota si no existe
+// Crear el elemento de la mascota asegurando visibilidad
 let petEl = document.querySelector('.cyber-zorro');
 if (!petEl) {
     petEl = document.createElement('div');
     petEl.className = 'cyber-zorro';
-    petEl.innerHTML = '<div class="ears"><div class="ear"></div><div class="ear"></div></div><div class="nose"></div>';
+    petEl.innerHTML = '<div class="ears"><div class="ear"></div><div class="ear"></div></div>';
     document.body.appendChild(petEl);
 }
 
-let posX = window.innerWidth / 2;
-let posY = window.innerHeight / 2;
-let speedX = 2.5;
-let speedY = 1.8;
+// Posición inicial centrada
+let posX = window.innerWidth / 2 - 50;
+let posY = window.innerHeight / 2 - 50;
+let speedX = 2.0;
+let speedY = 1.5;
 let zorroDir = 1;
 
 function moveZorro() {
     posX += speedX;
     posY += speedY;
 
-    // Rebote en bordes
-    if (posX <= 0 || posX >= window.innerWidth - 80) {
+    // Rebote en bordes (ajustado para el nuevo tamaño)
+    if (posX <= 0 || posX >= window.innerWidth - 100) {
         speedX *= -1;
         zorroDir *= -1;
     }
-    if (posY <= 50 || posY >= window.innerHeight - 80) {
+    if (posY <= 60 || posY >= window.innerHeight - 150) { // No bajar hasta la marquesina tech
         speedY *= -1;
     }
 
@@ -37,21 +38,20 @@ function moveZorro() {
         setTimeout(() => petEl.classList.remove('blinking'), 150);
     }
 
-    // Maullido aleatorio (solo si existe la función appendMessage)
-    if (Math.random() < 0.002 && typeof appendMessage === 'function') {
-        appendMessage('miau! (◕ᴥ◕)', 'ai');
+    // Maullido aleatorio en el chat
+    if (Math.random() < 0.0015 && typeof appendMessage === 'function') {
+        appendMessage('miau! (◕ᴥ◕) #TechFox', 'ai');
     }
 
     requestAnimationFrame(moveZorro);
 }
 
-// Iniciar movimiento
+// Iniciar movimiento automático
 moveZorro();
 
-// Hacer que reaccione al clic
+// Reacción al Clic: Purr y aceleración temporal
 petEl.onclick = () => {
-    speedX *= 1.5; // Se emociona y corre más rápido
-    speedY *= 1.5;
-    if (typeof appendMessage === 'function') appendMessage('¡Purr! 💖', 'ai');
-    setTimeout(() => { speedX /= 1.5; speedY /= 1.5; }, 2000);
+    speedX *= 2; speedY *= 2;
+    if (typeof appendMessage === 'function') appendMessage('¡Purr! 💖 Me encanta la tecnología.', 'ai');
+    setTimeout(() => { speedX /= 2; speedY /= 2; }, 1500);
 };
