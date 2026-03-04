@@ -1,40 +1,65 @@
 
-// --- Lógica del Buscador Pro ---
-function loadAudio() {
+// --- Lógica del Rastro del Mouse (0 y 1 Blanco Neon) ---
+const trailCanvas = document.getElementById('trailCanvas');
+const trailCtx = trailCanvas.getContext('2d');
+trailCanvas.width = window.innerWidth;
+trailCanvas.height = window.innerHeight;
+
+let particles = [];
+
+function drawTrail() {
+    trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+    trailCtx.fillStyle = "rgba(255, 255, 255, 0.8)"; // Blanco Neon
+    trailCtx.font = "12px monospace";
+    particles.forEach((p, i) => {
+        trailCtx.fillText(p.text, p.x, p.y);
+        p.y += p.speed;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) {
+            particles.splice(i, 1);
+        }
+    });
+    requestAnimationFrame(drawTrail);
+}
+
+window.addEventListener('mousemove', e => {
+    particles.push({
+        x: e.clientX,
+        y: e.clientY,
+        text: Math.random() > 0.5 ? '0' : '1',
+        alpha: 1,
+        speed: Math.random() * 1 + 0.5
+    });
+});
+drawTrail();
+
+
+// --- Búsqueda de Música y Reproducción en la Misma Página ---
+function searchAndPlay() {
     const query = document.getElementById('audioURL').value.trim();
-    if(!query) return;
+    if (!query) return;
 
     const ytContainer = document.getElementById('youtubeContainer');
+    // Buscamos e incrustamos el video directamente
+    const searchUrl = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(query)}&autoplay=1`;
+    ytContainer.innerHTML = `<iframe width="560" height="315" src="${searchUrl}" allow="autoplay" frameborder="0"></iframe>`;
     
-    if(query.includes('youtube.com') || query.includes('youtu.be')) {
-        const id = extractYTID(query);
-        ytContainer.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay"></iframe>`;
-    } else {
-        // Simulación de búsqueda: Abrir en mini-ventana o buscar el primer resultado
-        appendMessage(`Buscando "${query}" en la base de datos central...`, 'ai');
-        const searchUrl = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(query)}&autoplay=1`;
-        ytContainer.innerHTML = `<iframe width="560" height="315" src="${searchUrl}" allow="autoplay"></iframe>`;
-    }
+    appendMessage(`Buscando y sintonizando "${query}"... nyan!`, 'ai');
 }
 
-function extractYTID(url){
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length == 11) ? match[2] : null;
-}
-
-// --- Radio Funcional ---
+// --- Radio de Anime ---
 const radioStations = {
-    lofi: [{name: "Lofi Girl Direct", url: "https://ais-sa2.cdnstream1.com/2447_128.mp3"}],
-    retro: [{name: "80s Hits", url: "http://streaming.radionomy.com/Best80"}],
-    kpop: [{name: "K-Pop Radio", url: "https://kpop.stream.com/live"}]
+    anime: [
+        { name: "Anime Hits Radio", url: "https://stream.zeno.fm/7q8hn6vt9mruv" },
+        { name: "J-Pop Powerplay", url: "http://powerplayjpop.stream.com/live" }
+    ]
 };
 
 function updateRadioList() {
     const cat = document.getElementById('radioCategory').value;
     const select = document.getElementById('radioSelect');
     select.innerHTML = '<option>Cargando...</option>';
-    if(radioStations[cat]) {
+    if (radioStations[cat]) {
         select.innerHTML = '';
         radioStations[cat].forEach(s => {
             const opt = document.createElement('option');
@@ -48,87 +73,112 @@ function updateRadioList() {
 function changeRadio() {
     const audio = document.getElementById('audio');
     audio.src = document.getElementById('radioSelect').value;
-    audio.play().catch(() => alert("Error: El servidor de radio está saturado. Intenta otro canal."));
+    audio.play().catch(() => alert("Error al conectar con la radio de anime nyan!"));
 }
 
-// --- IA con "Wikipedia" (Simulada con Wiki-API) ---
+// --- Chat IA con Interfaz Kawaii y Wikipedia ---
 async function sendMessage() {
     const input = document.getElementById('userInput');
     const text = input.value.trim();
-    if(!text) return;
+    if (!text) return;
 
     appendMessage(text, 'user');
     input.value = '';
 
-    // Lógica de búsqueda real en Wikipedia
+    // Búsqueda real en Wikipedia
     try {
         const response = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(text)}`);
         const data = await response.json();
-        if(data.extract) {
+        if (data.extract) {
             appendMessage(data.extract, 'ai');
         } else {
-            appendMessage("No encontré eso en mis archivos, ¿puedes ser más específico?", 'ai');
+            appendMessage("¡Nyan! No encontré eso en mis archivos de Wikipedia, ¿puedes preguntar de otra forma?", 'ai');
         }
     } catch {
-        appendMessage("Error de conexión con la red neuronal.", 'ai');
+        appendMessage("¡Uy! Hubo un error de conexión con la red nyan-tástica.", 'ai');
     }
 }
 
 function appendMessage(msg, type) {
     const body = document.getElementById('chatBody');
     const div = document.createElement('div');
-    div.style.marginBottom = "10px";
-    div.style.color = type === 'user' ? '#ff00ff' : '#00ffcc';
-    div.innerHTML = `<strong>${type.toUpperCase()}:</strong> ${msg}`;
+    div.className = `msg ${type}`;
+    div.textContent = msg;
     body.appendChild(div);
-    body.scrollTop = body.scrollHeight;
+    body.scrollTop = body.scrollHeight; // Mantiene el chat en el recuadro
 }
 
-// --- Horóscopo Pro ---
-const signos = ['Aries','Tauro','Geminis','Cancer','Leo','Virgo','Libra','Escorpio','Sagitario','Capricornio','Acuario','Piscis'];
-const hGrid = document.getElementById('horoscopeBody');
+// --- Horóscopo Planetario Giratorio ---
+const signosData = [
+    { name: 'Aries', icon: '♈️', color: '#ff4444', planet: 'Marte' },
+    { name: 'Tauro', icon: '♉️', color: '#ffcc00', planet: 'Venus' },
+    { name: 'Geminis', icon: '♊️', color: '#33ccff', planet: 'Mercurio' },
+    { name: 'Cancer', icon: '♋️', color: '#fff', planet: 'Luna' },
+    { name: 'Leo', icon: '♌️', color: '#ff9900', planet: 'Sol' },
+    { name: 'Virgo', icon: '♍️', color: '#99cc33', planet: 'Mercurio' },
+    { name: 'Libra', icon: '♎️', color: '#ffccf2', planet: 'Venus' },
+    { name: 'Escorpio', icon: '♏️', color: '#ff00ff', planet: 'Plutón' },
+    { name: 'Sagitario', icon: '♐️', color: '#9933cc', planet: 'Júpiter' },
+    { name: 'Capricornio', icon: '♑️', color: '#666', planet: 'Saturno' },
+    { name: 'Acuario', icon: '♒️', color: '#3366ff', planet: 'Urano' },
+    { name: 'Piscis', icon: '♓️', color: '#33ffcc', planet: 'Neptuno' }
+];
 
-signos.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'h-item';
-    div.textContent = s;
-    div.onclick = () => getFortune(s);
-    hGrid.appendChild(div);
+const hOrbit = document.getElementById('horoscopeOrbit');
+
+signosData.forEach((s, i) => {
+    const signPlanet = document.createElement('div');
+    signPlanet.className = 'h-planet-sign';
+    signPlanet.style.backgroundColor = s.color;
+    signPlanet.style.boxShadow = `0 0 10px #fff, 0 0 20px ${s.color}`;
+    // Ajuste de órbita y duración para cada planeta
+    signPlanet.style.animationDuration = `${20 + i * 2}s`;
+    
+    signPlanet.innerHTML = `
+        <span class="h-sign-icon">${s.icon}</span>
+        <span class="h-sign-name">${s.name} (${s.planet})</span>
+    `;
+    signPlanet.onclick = () => getDailyFortune(s.name);
+    hOrbit.appendChild(signPlanet);
 });
 
-async function getFortune(signo) {
-    document.getElementById('horoscopeResult').textContent = "Consultando constelaciones...";
+async function getDailyFortune(signo) {
+    appendMessage(`Consultando el oráculo planetario para ${signo}... nyan!`, 'ai');
     try {
         const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${signo.toLowerCase()}&day=TODAY`);
         const data = await res.json();
-        document.getElementById('horoscopeResult').textContent = data.data.horoscope_data;
+        alert(`✨ ${signo.toUpperCase()} (Hoy):\n${data.data.horoscope_data}`);
     } catch {
-        document.getElementById('horoscopeResult').textContent = "La señal de Saturno es débil hoy.";
+        alert(`¡Nyan! Las estrellas están nubladas para ${signo} hoy.`);
     }
 }
 
-// --- Tamagotchi 90s Movimiento ---
-const petCont = document.getElementById('petContainer');
-let posX = 100, posY = 200, moveX = 1, moveY = 1;
+// --- Movimiento del Gatito Mascota ---
+const kittyPet = document.getElementById('kittyPet');
+let kittyX = 150, kittyY = 300, moveX = 1.5, moveY = 1;
 
-function tamagotchiAI() {
-    posX += moveX;
-    posY += moveY;
+function kittyAI() {
+    kittyX += moveX;
+    kittyY += moveY;
     
-    if(posX > window.innerWidth - 130 || posX < 0) moveX *= -1;
-    if(posY > window.innerHeight - 160 || posY < 50) moveY *= -1;
+    // Rebote en los bordes de la pantalla
+    if (kittyX > window.innerWidth - 60 || kittyX < 0) moveX *= -1;
+    if (kittyY > window.innerHeight - 80 || kittyY < 50) moveY *= -1;
     
-    petCont.style.left = posX + "px";
-    petCont.style.top = posY + "px";
+    kittyPet.style.left = kittyX + "px";
+    kittyPet.style.top = kittyY + "px";
     
-    if(Math.random() < 0.01) { // Cambio de humor aleatorio
-        document.getElementById('pet').textContent = "(^O^)";
-        setTimeout(() => document.getElementById('pet').textContent = "v(^_^)v", 1000);
+    // Pequeño giro al cambiar de dirección
+    kittyPet.style.transform = `scaleX(${moveX > 0 ? 1 : -1})`;
+
+    if (Math.random() < 0.005) { // Maullido aleatorio
+        appendMessage("¡Miau! ✨", "ai");
     }
     
-    requestAnimationFrame(tamagotchiAI);
+    requestAnimationFrame(kittyAI);
 }
-tamagotchiAI();
+kittyAI();
+
 
 // --- Partículas de Fondo ---
 const canvas = document.getElementById('bgCanvas');
@@ -138,18 +188,18 @@ canvas.height = window.innerHeight;
 
 let parts = [];
 function createParts() {
-    for(let i=0; i<100; i++) {
-        parts.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
+    for(let i=0; i<80; i++) {
+        parts.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5, c: Math.random() > 0.5 ? '#ff00ff' : '#33ccff'});
     }
 }
 function draw() {
     ctx.clearRect(0,0,canvas.width, canvas.height);
-    ctx.fillStyle = "#ff00ff";
     parts.forEach(p => {
+        ctx.fillStyle = p.c;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
         ctx.fill();
-        p.y -= 0.5;
+        p.y -= 0.3;
         if(p.y < 0) p.y = canvas.height;
     });
     requestAnimationFrame(draw);
