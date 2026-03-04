@@ -1,251 +1,98 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Katy Ultimate Kawaii Universe 💖</title>
-  <link rel="stylesheet" href="style.css">
-
-<style>
-body{
-margin:0;
-font-family:'Comic Sans MS',cursive;
-background: linear-gradient(180deg, #ffe6fb, #e0f7ff);
-overflow:hidden;
-position:relative;
-}
-
-/* TITULO */
-.title{
-position:absolute;
-top:20px;
-width:100%;
-text-align:center;
-font-size:120px;
-color:#ff4fd8;
-text-shadow:
-0 0 10px #ff4fd8,
-0 0 20px #ff4fd8,
-0 0 40px #ff99ee,
-0 0 80px white;
-}
-
-/* PLAYER NUBE */
-.cloud-player{
-position:absolute;
-top:20px;
-right:20px;
-width:300px;
-background:white;
-border-radius:50px;
-padding:20px;
-box-shadow:0 0 30px #aee7ff;
-animation:float 4s infinite ease-in-out;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(10px)}
-100%{transform:translateY(0)}
-}
-
-.bubble{
-position:absolute;
-bottom:-20px;
-width:20px;
-height:20px;
-background:white;
-border-radius:50%;
-animation:rise 6s infinite;
-}
-
-@keyframes rise{
-from{transform:translateY(0);opacity:1;}
-to{transform:translateY(-200px);opacity:0;}
-}
-
-/* ASISTENTE */
-.assistant{
-position:absolute;
-bottom:20px;
-left:20px;
-width:300px;
-background:white;
-border-radius:25px;
-padding:15px;
-box-shadow:0 0 20px pink;
-}
-
-/* MASCOTA */
-.pet-game{
-position:absolute;
-bottom:20px;
-right:20px;
-width:300px;
-background:white;
-border-radius:25px;
-padding:15px;
-box-shadow:0 0 20px #ffb3ec;
-}
-
-button{
-border:none;
-border-radius:15px;
-padding:5px 10px;
-background:#ffb3ec;
-margin:3px;
-cursor:pointer;
-}
-
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UwU 💖</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+<!-- BURBUJAS -->
+<div class="bubbles"></div>
+
+<!-- TITULO -->
 <div class="title">UwU</div>
 
-
-<!-- REPRODUCTOR -->
+<!-- REPRODUCTOR NUBE -->
 <div class="cloud-player">
   <div class="cloud-shape"></div>
-  
   <div class="player-content">
-    <h3>☁️Cloud Player</h3>
-
-    <input id="ytlink" placeholder="Pega link YouTube..." />
-    <button onclick="loadYT()">▶ Reproducir</button>
-
+    <h3>☁️ Dream Player</h3>
+    <input type="text" id="audioURL" placeholder="Pegá tu link MP3 aquí ✨">
+    <button onclick="loadAudio()">Cargar</button>
+    <audio id="audio" controls></audio>
     <div class="visualizer"></div>
-
-    <audio controls id="radio">
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
-    </audio>
-
-    <div id="ytplayer"></div>
   </div>
 </div>
 
-<!-- ASISTENTE GATITO -->
-<div class="assistant">
-<h3>🐱 Gatito IA</h3>
-<div id="chat"></div>
-<input id="userinput" placeholder="Preguntame algo~" style="width:100%">
-<button onclick="talk()">Enviar</button>
+<!-- CHAT IA -->
+<div class="ai-chat">
+  <div class="chat-header">🌸 AI Assistant</div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Escribí algo lindo...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
 </div>
 
-<!-- JUEGO MASCOTA -->
-<div class="pet-game">
-<h3>🐶 Mi Mascota</h3>
-<div id="petstatus"></div>
-<button onclick="feed()">Dar comida</button>
-<button onclick="play()">Jugar</button>
-<button onclick="save()">Guardar</button>
+<!-- TAMAGOTCHI -->
+<div class="tamagotchi">
+  <div class="pet-screen">
+    <div class="pet" id="pet"></div>
+  </div>
+  <div class="pet-controls">
+    <button onclick="feedPet()">🍓</button>
+    <button onclick="playPet()">🎮</button>
+    <button onclick="sleepPet()">💤</button>
+  </div>
 </div>
 
 <script>
-/* titulo de uwu**/
-  let toggle = true;
-setInterval(() => {
-  document.title = toggle ? "UwU 💖" : "✨ UwU ✨";
-  toggle = !toggle;
-}, 1000);
-
-  /* BURBUJAS PASTEL */
-function createBubble(){
-const bubble = document.createElement("div");
-bubble.classList.add("bubble-bg");
-
-let size = Math.random()*60 + 20;
-bubble.style.width = size+"px";
-bubble.style.height = size+"px";
-bubble.style.left = Math.random()*100+"vw";
-
-const colors = [
-"#ffd6f6",
-"#ffb3ec",
-"#c8f1ff",
-"#e0bbff",
-"#b5ead7"
-];
-
-bubble.style.background = colors[Math.floor(Math.random()*colors.length)];
-bubble.style.animationDuration = (Math.random()*6 + 4)+"s";
-
-document.body.appendChild(bubble);
-
-setTimeout(()=>{
-bubble.remove();
-},10000);
+/* BURBUJAS */
+const bubbleContainer = document.querySelector('.bubbles');
+for(let i=0;i<25;i++){
+  let b = document.createElement("div");
+  b.className="bubble";
+  b.style.left=Math.random()*100+"vw";
+  b.style.animationDuration=(6+Math.random()*6)+"s";
+  b.style.width=b.style.height=(40+Math.random()*80)+"px";
+  bubbleContainer.appendChild(b);
 }
 
-setInterval(createBubble, 500);
-  
-  /* YOUTUBE */
-function loadYT(){
-let link=document.getElementById("ytlink").value;
-if(link.includes("watch?v=")){
-let id=link.split("watch?v=")[1];
-document.getElementById("ytplayer").innerHTML=
-`<iframe width="280" height="160"
-src="https://www.youtube.com/embed/${id}"
-frameborder="0" allowfullscreen></iframe>`;
-}
+/* AUDIO */
+function loadAudio(){
+  const url=document.getElementById("audioURL").value;
+  document.getElementById("audio").src=url;
 }
 
-/* ASISTENTE SIMPLE */
-let name=localStorage.getItem("katyname") || "";
-
-function talk(){
-let input=document.getElementById("userinput").value;
-let chat=document.getElementById("chat");
-
-if(input.toLowerCase().includes("nombre")){
-name=input.split(" ").pop();
-localStorage.setItem("katyname",name);
-chat.innerHTML+="<p>🐱 Te recordaré, "+name+" 💖</p>";
-return;
+/* CHAT */
+function sendMessage(){
+  const input=document.getElementById("userInput");
+  const body=document.getElementById("chatBody");
+  if(input.value.trim()=="") return;
+  body.innerHTML+=`<div class="msg user">${input.value}</div>`;
+  setTimeout(()=>{
+    body.innerHTML+=`<div class="msg ai">UwU dice: ${input.value} 💖</div>`;
+    body.scrollTop=body.scrollHeight;
+  },600);
+  input.value="";
 }
 
-if(input.toLowerCase().includes("horoscopo")){
-chat.innerHTML+="<p>🐱 Hoy tendrás energía positiva y amor pastel 💕</p>";
-return;
-}
+/* TAMAGOTCHI */
+let pet=document.getElementById("pet");
+let mood=0;
 
-let frases=[
-"Eres brillante como una estrella ✨",
-"Confía en ti 💖",
-"Hoy es un día mágico 🌸"
-];
-
-chat.innerHTML+="<p>🐱 "+frases[Math.floor(Math.random()*frases.length)]+"</p>";
+function animatePet(){
+  pet.style.transform=`translateX(${Math.sin(Date.now()/500)*10}px)`;
+  requestAnimationFrame(animatePet);
 }
+animatePet();
 
-/* MASCOTA */
-let pet={
-hunger:50,
-happiness:50
-};
-
-function update(){
-document.getElementById("petstatus").innerHTML=
-"🍖 Hambre: "+pet.hunger+"<br>🎾 Felicidad: "+pet.happiness;
-}
-function feed(){
-pet.hunger+=10;
-update();
-}
-function play(){
-pet.happiness+=10;
-update();
-}
-function save(){
-localStorage.setItem("pet",JSON.stringify(pet));
-alert("Guardado 💾");
-}
-
-let saved=localStorage.getItem("pet");
-if(saved){pet=JSON.parse(saved);}
-update();
-
+function feedPet(){ mood+=2; }
+function playPet(){ mood+=1; }
+function sleepPet(){ mood=0; }
 </script>
 
 </body>
