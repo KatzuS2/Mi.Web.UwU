@@ -1,188 +1,211 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Katy Supreme Kawaii Universe 💖</title>
+<title>Katy Ultimate Kawaii Universe 💖</title>
 
 <style>
-body {
-    margin:0;
-    overflow:hidden;
-    font-family: "Comic Sans MS", cursive;
-    background: linear-gradient(135deg,#ffd6f6,#c8f1ff);
-    cursor: url("https://cur.cursors-4u.net/anime/ani-11/ani1023.cur"), auto;
+body{
+margin:0;
+font-family:'Comic Sans MS',cursive;
+background:#c8f1ff;
+overflow:hidden;
 }
 
-/* Titulo */
+/* TITULO */
 .title{
-    position:absolute;
-    top:20px;
-    width:100%;
-    text-align:center;
-    font-size:60px;
-    color:#ff8ad6;
-    text-shadow:0 0 25px white;
-    animation:float 4s infinite ease-in-out;
+position:absolute;
+top:20px;
+width:100%;
+text-align:center;
+font-size:120px;
+color:#ff4fd8;
+text-shadow:
+0 0 10px #ff4fd8,
+0 0 20px #ff4fd8,
+0 0 40px #ff99ee,
+0 0 80px white;
 }
+
+/* PLAYER NUBE */
+.cloud-player{
+position:absolute;
+top:20px;
+right:20px;
+width:300px;
+background:white;
+border-radius:50px;
+padding:20px;
+box-shadow:0 0 30px #aee7ff;
+animation:float 4s infinite ease-in-out;
+}
+
 @keyframes float{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(15px)}
-    100%{transform:translateY(0)}
+0%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+100%{transform:translateY(0)}
 }
 
-/* Panel */
-.panel{
-    position:absolute;
-    top:120px;
-    left:50%;
-    transform:translateX(-50%);
-    background:rgba(255,255,255,0.6);
-    padding:20px;
-    border-radius:25px;
-    backdrop-filter: blur(10px);
-    box-shadow:0 0 30px #ffb3ec;
-}
-
-/* Botones */
-button{
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    background:#ffb3ec;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    margin:5px;
-    transition:0.3s;
-}
-button:hover{
-    transform:scale(1.1);
-    background:#8ad6ff;
-}
-
-/* Mascotas */
-.pet{
-    position:absolute;
-    font-size:50px;
-    transition:0.2s;
-}
-
-/* Burbujas */
 .bubble{
-    position:absolute;
-    bottom:-100px;
-    background:rgba(255,255,255,0.5);
-    border-radius:50%;
-    animation:rise linear infinite;
+position:absolute;
+bottom:-20px;
+width:20px;
+height:20px;
+background:white;
+border-radius:50%;
+animation:rise 6s infinite;
 }
+
 @keyframes rise{
-    from{transform:translateY(0);opacity:1;}
-    to{transform:translateY(-120vh);opacity:0;}
+from{transform:translateY(0);opacity:1;}
+to{transform:translateY(-200px);opacity:0;}
 }
 
-/* Glitter click */
-.sparkle{
-    position:absolute;
-    pointer-events:none;
-    animation:spark 1s forwards;
-}
-@keyframes spark{
-    from{opacity:1; transform:scale(1);}
-    to{opacity:0; transform:scale(3);}
+/* ASISTENTE */
+.assistant{
+position:absolute;
+bottom:20px;
+left:20px;
+width:300px;
+background:white;
+border-radius:25px;
+padding:15px;
+box-shadow:0 0 20px pink;
 }
 
-/* Radio */
-.radio{
-    position:absolute;
-    bottom:20px;
-    left:20px;
-    background:#ffe6fa;
-    padding:15px;
-    border-radius:20px;
-    box-shadow:0 0 20px #ffb3ec;
+/* MASCOTA */
+.pet-game{
+position:absolute;
+bottom:20px;
+right:20px;
+width:300px;
+background:white;
+border-radius:25px;
+padding:15px;
+box-shadow:0 0 20px #ffb3ec;
 }
+
+button{
+border:none;
+border-radius:15px;
+padding:5px 10px;
+background:#ffb3ec;
+margin:3px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="title">UwU ✨ Katy Supreme Kawaii World 💖</div>
+<div class="title">UwU</div>
 
-<div class="panel">
-<h2>💗 Panel Mágico 💗</h2>
-<button onclick="modoNoche()">Modo Noche Pastel 🌙</button>
-<button onclick="lluviaCorazones()">Lluvia de 💖</button>
-<button onclick="saludar()">Saludo Kawaii</button>
-<p id="mensaje"></p>
+<!-- REPRODUCTOR -->
+<div class="cloud-player">
+<h3>☁️ Kawaii Music</h3>
+
+<input id="ytlink" placeholder="Pega link YouTube embed" style="width:100%">
+<button onclick="loadYT()">Reproducir</button>
+
+<br><br>
+
+<audio controls id="radio">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+</audio>
+
+<div class="bubble" style="left:50px;animation-duration:4s"></div>
+<div class="bubble" style="left:100px;animation-duration:6s"></div>
+
+<div id="ytplayer"></div>
 </div>
 
-<div class="radio">
-📻 Radio Kawaii
-<audio controls autoplay loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-</audio>
+<!-- ASISTENTE GATITO -->
+<div class="assistant">
+<h3>🐱 Gatito IA</h3>
+<div id="chat"></div>
+<input id="userinput" placeholder="Preguntame algo~" style="width:100%">
+<button onclick="talk()">Enviar</button>
+</div>
+
+<!-- JUEGO MASCOTA -->
+<div class="pet-game">
+<h3>🐶 Mi Mascota</h3>
+<div id="petstatus"></div>
+<button onclick="feed()">Dar comida</button>
+<button onclick="play()">Jugar</button>
+<button onclick="save()">Guardar</button>
 </div>
 
 <script>
 
-/* Mascotas inteligentes */
-let pets=["🐰","🐱","🐻","🐶","🦄"];
-pets.forEach((p,i)=>{
-    let pet=document.createElement("div");
-    pet.className="pet";
-    pet.innerHTML=p;
-    pet.style.top=200+i*60+"px";
-    pet.style.left="100px";
-    document.body.appendChild(pet);
-
-    document.addEventListener("mousemove",(e)=>{
-        pet.style.left=e.pageX/10+i*30+"px";
-        pet.style.top=e.pageY/10+i*20+"px";
-    });
-});
-
-/* Burbujas */
-for(let i=0;i<25;i++){
-    let b=document.createElement("div");
-    b.className="bubble";
-    b.style.left=Math.random()*100+"vw";
-    b.style.width=b.style.height=(20+Math.random()*50)+"px";
-    b.style.animationDuration=(5+Math.random()*10)+"s";
-    document.body.appendChild(b);
+/* YOUTUBE */
+function loadYT(){
+let link=document.getElementById("ytlink").value;
+if(link.includes("watch?v=")){
+let id=link.split("watch?v=")[1];
+document.getElementById("ytplayer").innerHTML=
+`<iframe width="280" height="160"
+src="https://www.youtube.com/embed/${id}"
+frameborder="0" allowfullscreen></iframe>`;
+}
 }
 
-/* Glitter al click */
-document.addEventListener("click",(e)=>{
-    let s=document.createElement("div");
-    s.className="sparkle";
-    s.innerHTML="✨";
-    s.style.left=e.pageX+"px";
-    s.style.top=e.pageY+"px";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1000);
-});
+/* ASISTENTE SIMPLE */
+let name=localStorage.getItem("katyname") || "";
 
-/* Funciones mágicas */
-function modoNoche(){
-    document.body.style.background="linear-gradient(135deg,#2e1a47,#1a2a47)";
+function talk(){
+let input=document.getElementById("userinput").value;
+let chat=document.getElementById("chat");
+
+if(input.toLowerCase().includes("nombre")){
+name=input.split(" ").pop();
+localStorage.setItem("katyname",name);
+chat.innerHTML+="<p>🐱 Te recordaré, "+name+" 💖</p>";
+return;
 }
-function lluviaCorazones(){
-    for(let i=0;i<20;i++){
-        let h=document.createElement("div");
-        h.innerHTML="💖";
-        h.style.position="absolute";
-        h.style.left=Math.random()*100+"vw";
-        h.style.top="-50px";
-        h.style.fontSize="30px";
-        h.style.animation="rise 5s linear forwards";
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),5000);
-    }
+
+if(input.toLowerCase().includes("horoscopo")){
+chat.innerHTML+="<p>🐱 Hoy tendrás energía positiva y amor pastel 💕</p>";
+return;
 }
-function saludar(){
-    document.getElementById("mensaje").innerText="Konnichiwa Katy-sama 💕 UwU desu ne~ ✨";
+
+let frases=[
+"Eres brillante como una estrella ✨",
+"Confía en ti 💖",
+"Hoy es un día mágico 🌸"
+];
+
+chat.innerHTML+="<p>🐱 "+frases[Math.floor(Math.random()*frases.length)]+"</p>";
 }
+
+/* MASCOTA */
+let pet={
+hunger:50,
+happiness:50
+};
+
+function update(){
+document.getElementById("petstatus").innerHTML=
+"🍖 Hambre: "+pet.hunger+"<br>🎾 Felicidad: "+pet.happiness;
+}
+function feed(){
+pet.hunger+=10;
+update();
+}
+function play(){
+pet.happiness+=10;
+update();
+}
+function save(){
+localStorage.setItem("pet",JSON.stringify(pet));
+alert("Guardado 💾");
+}
+
+let saved=localStorage.getItem("pet");
+if(saved){pet=JSON.parse(saved);}
+update();
+
 </script>
 
 </body>
