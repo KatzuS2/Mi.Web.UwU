@@ -60,20 +60,19 @@ async function sendMessage(){
 // ====== TAMAGOTCHI ======
 const pet = document.getElementById('pet');
 let petX = 100, petY = 100, dirX = 1, dirY = 1;
+let petHover = false;
 
 function movePet(){
     petX += dirX*2; petY += dirY*1.5;
     if(petX<0 || petX>window.innerWidth-80) dirX*=-1;
     if(petY<150 || petY>window.innerHeight-80) dirY*=-1;
-    pet.style.transform = `translate(${petX}px, ${petY}px) scale(${petHover?1.2:1})`;
+    pet.style.transform = `translate(${petX}px, ${petY}px) scale(${petHover?1.3:1})`;
 }
-let petHover=false;
 pet.addEventListener('mouseenter', ()=>{ petHover=true; });
 pet.addEventListener('mouseleave', ()=>{ petHover=false; });
-
 setInterval(movePet,50);
 
-// ====== HOROSCOPO TODOS LOS SIGNOS ======
+// ====== HOROSCOPO ======
 const horoscopeBody = document.getElementById('horoscopeBody');
 const signs = ["Aries ♈","Tauro ♉","Géminis ♊","Cáncer ♋","Leo ♌","Virgo ♍","Libra ♎","Escorpio ♏","Sagitario ♐","Capricornio ♑","Acuario ♒","Piscis ♓"];
 horoscopeBody.innerHTML = '';
