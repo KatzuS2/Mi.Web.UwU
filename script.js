@@ -1,253 +1,107 @@
-// =======================
-// Variables globales
-// =======================
 const audio = document.getElementById('audio');
 const audioURL = document.getElementById('audioURL');
 const progress = document.getElementById('progress');
-const playBtn = document.getElementById('playBtn');
-const pauseBtn = document.getElementById('pauseBtn');
 const youtubeContainer = document.getElementById('youtubeContainer');
-
-const radioCategory = document.getElementById('radioCategory');
 const radioSelect = document.getElementById('radioSelect');
-
 const chatBody = document.getElementById('chatBody');
-const userInput = document.getElementById('userInput');
-
-const horoscopeBody = document.getElementById('horoscopeBody');
-const weatherDiv = document.getElementById('weather');
-
 const pet = document.getElementById('pet');
 
-// =======================
-// Radios funcionales reales
-// =======================
-const radios = {
-    anime:[
-        {name:"Anime Radio 1", url:"https://stream.zeno.fm/7q8hn6vt9mruv"},
-        {name:"Anime Radio 2", url:"https://stream.zeno.fm/5vuztq0h3zquv"}
-    ],
-    nacional:[
-        {name:"Radio Nacional", url:"http://200.89.178.5:8000/radioweb"}
-    ],
-    local:[
-        {name:"Radio Local 1", url:"http://stream.localradio.com:8000/stream"}
-    ],
-    pop:[
-        {name:"Pop FM 1", url:"http://popfm.stream:8000/stream"}
-    ],
-    rock:[
-        {name:"Rock FM", url:"http://rockfm.stream:8000/stream"}
-    ]
-};
-
-function updateRadioList(){
-    const cat = radioCategory.value;
-    radioSelect.innerHTML = `<option value="">Seleccione Radio</option>`;
-    if(radios[cat]){
-        radios[cat].forEach(r=>{
-            const option = document.createElement('option');
-            option.value = r.url;
-            option.textContent = r.name;
-            radioSelect.appendChild(option);
-        });
-    }
-}
-
-function changeRadio(){
-    const url = radioSelect.value;
-    if(!url) return;
-    youtubeContainer.innerHTML = '';
-    audio.src = url;
-    audio.play();
-}
-
-// =======================
-// Reproductor MP3 y YouTube
-// =======================
+// --- REPRODUCTOR E INTELIGENCIA DE BÚSQUEDA ---
 function loadAudio() {
-    const url = audioURL.value.trim();
-    if(!url) return;
-    
-    if(url.includes('youtube.com') || url.includes('youtu.be')) {
+    const val = audioURL.value.trim();
+    if(!val) return;
+
+    // Si no es URL, busca en YouTube
+    if(!val.startsWith('http')) {
+        appendMessage(`Buscando "${val}"...`, 'ai');
+        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(val)}`, '_blank');
+        return;
+    }
+
+    if(val.includes('youtube.com') || val.includes('youtu.be')) {
         audio.pause();
-        audio.src = '';
-        youtubeContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${extractYouTubeID(url)}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        const id = val.includes('v=') ? new URL(val).searchParams.get('v') : val.split('/').pop();
+        youtubeContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
     } else {
-        youtubeContainer.innerHTML = '';
-        audio.src = url;
+        audio.src = val;
         audio.play();
     }
 }
 
-function extractYouTubeID(url){
-    let id = '';
-    if(url.includes('youtu.be')){
-        id = url.split('/').pop();
-    } else {
-        const params = new URL(url).searchParams;
-        id = params.get('v');
-    }
-    return id;
-}
-
-playBtn.onclick = ()=>audio.play();
-pauseBtn.onclick = ()=>audio.pause();
-
-audio.ontimeupdate = ()=>{
-    if(audio.duration) progress.style.width = (audio.currentTime/audio.duration*100)+'%';
+// --- RADIOS ACTUALIZADAS ---
+const radios = {
+    anime: [{name:"Anime Hit", url:"https://stream.zeno.fm/7q8hn6vt9mruv"}],
+    pop: [{name:"Pop Party", url:"http://icepool.silvacast.com/HITRADIO.mp3"}],
+    rock: [{name:"Classic Rock", url:"http://virginrock.fmdir.com:8000/"}]
 };
 
-// =======================
-// Partículas kawaii 0/1
-// =======================
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
-
-let particles = [];
-for(let i=0;i<150;i++){
-    particles.push({
-        x:Math.random()*W,
-        y:Math.random()*H,
-        text:Math.random()>0.5?'0':'1',
-        alpha:Math.random(),
-        size: Math.random()*12+8,
-        speed: Math.random()*1.5+0.5
-    });
+function updateRadioList() {
+    const cat = document.getElementById('radioCategory').value;
+    radioSelect.innerHTML = '<option value="">Seleccione Radio</option>';
+    if(radios[cat]) {
+        radios[cat].forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r.url;
+            opt.textContent = r.name;
+            radioSelect.appendChild(opt);
+        });
+    }
 }
 
-canvas.addEventListener('mousemove', e=>{
-    particles.push({
-        x:e.clientX,
-        y:e.clientY,
-        text:Math.random()>0.5?'0':'1',
-        alpha:1,
-        size: Math.random()*12+8,
-        speed: Math.random()*2+1
-    });
+function changeRadio() {
+    if(!radioSelect.value) return;
+    youtubeContainer.innerHTML = '';
+    audio.src = radioSelect.value;
+    audio.load();
+    audio.play().catch(() => appendMessage("Error al conectar con la radio.", "ai"));
+}
+
+// --- HORÓSCOPO REAL ---
+async function fetchHoroscope(signo) {
+    appendMessage(`Consultando los astros para ${signo}...`, 'ai');
+    try {
+        // API estable (JSONP o CORS friendly)
+        const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${signo}&day=TODAY`);
+        const data = await res.json();
+        alert(`✨ ${signo.toUpperCase()}:\n${data.data.horoscope_data}`);
+    } catch (e) {
+        alert("Los astros están nublados. Intenta más tarde.");
+    }
+}
+
+// --- INICIALIZAR HORÓSCOPO ---
+const signos = ['aries','tauro','geminis','cancer','leo','virgo','libra','escorpio','sagitario','capricornio','acuario','piscis'];
+const hBody = document.getElementById('horoscopeBody');
+signos.forEach(s => {
+    const d = document.createElement('div');
+    d.textContent = s;
+    d.style.cssText = "background:#ff33cc; margin:2px; padding:4px; border-radius:5px; cursor:pointer; font-size:11px; display:inline-block;";
+    d.onclick = () => fetchHoroscope(s);
+    hBody.appendChild(d);
 });
 
-function drawParticles(){
-    ctx.clearRect(0,0,W,H);
-    particles.forEach((p)=>{
-        ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
-        ctx.font=`${p.size}px monospace`;
-        ctx.fillText(p.text,p.x,p.y);
-        p.y -= p.speed;
-        p.alpha -=0.005;
-        if(p.alpha<=0){
-            p.x = Math.random()*W;
-            p.y = H+10;
-            p.alpha = Math.random();
-        }
-    });
-    requestAnimationFrame(drawParticles);
-}
-drawParticles();
+// --- MASCOTA REACTIVA ---
+let moods = ['😊','💖','🐱','😴'];
+pet.onclick = () => {
+    const randomMood = moods[Math.floor(Math.random()*moods.length)];
+    pet.textContent = randomMood;
+    pet.style.transform = "scale(1.5) rotate(20deg)";
+    setTimeout(() => pet.style.transform = "scale(1)", 300);
+};
 
-window.onresize = ()=>{
-    W=canvas.width=window.innerWidth;
-    H=canvas.height=window.innerHeight;
-}
-
-// =======================
-// Chat IA con OpenAI
-// =======================
-async function sendMessage(){
-    const question = userInput.value.trim();
-    if(!question) return;
-    appendMessage(question,'user');
-    userInput.value='';
-
-    // Preguntas de día o clima
-    if(question.toLowerCase().includes('día') || question.toLowerCase().includes('fecha')){
-        const date = new Date();
-        appendMessage(`Hoy es ${date.toLocaleDateString()} y son las ${date.toLocaleTimeString()}`,'ai');
-        return;
-    }
-    if(question.toLowerCase().includes('clima')){
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(async pos=>{
-                const lat=pos.coords.latitude;
-                const lon=pos.coords.longitude;
-                const data = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`).then(r=>r.json());
-                const w = data.current_weather;
-                appendMessage(`Clima actual: ${w.temperature}°C, viento ${w.windspeed} km/h`,'ai');
-            });
-        } else {
-            appendMessage(`No puedo acceder a tu ubicación.`,'ai');
-        }
-        return;
-    }
-
-    // Pregunta OpenAI
-    try{
-        const res = await fetch('/api/chat', {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({message:question})
-        });
-        const data = await res.json();
-        appendMessage(data.reply,'ai');
-    } catch(e){
-        appendMessage('Error al conectar con la IA.','ai');
-    }
-}
-
-function appendMessage(msg,cls){
-    const div = document.createElement('div');
-    div.className='msg '+cls;
-    div.textContent=msg;
-    chatBody.appendChild(div);
+// --- CHAT SIMPLE ---
+function appendMessage(msg, cls) {
+    const d = document.createElement('div');
+    d.className = 'msg ' + cls;
+    d.textContent = msg;
+    chatBody.appendChild(d);
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// =======================
-// Horóscopo diario real
-// =======================
-const signos = ['aries','tauro','geminis','cancer','leo','virgo','libra','escorpio','sagitario','capricornio','acuario','piscis'];
-horoscopeBody.innerHTML='';
-signos.forEach(s=>{
-    const div = document.createElement('div');
-    div.textContent = s;
-    div.style.cursor='pointer';
-    div.onclick = ()=>fetchHoroscope(s);
-    horoscopeBody.appendChild(div);
-});
-
-async function fetchHoroscope(signo){
-    try{
-        const res = await fetch(`https://aztro.sameerkumar.website/?sign=${signo}&day=today`, {method:'POST'});
-        const data = await res.json();
-        alert(`Horóscopo de ${signo} hoy:\n\n${data.description}`);
-    } catch(e){
-        alert('No se pudo obtener el horóscopo.');
-    }
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    if(!input.value) return;
+    appendMessage(input.value, 'user');
+    if(input.value.toLowerCase().includes('hola')) appendMessage('¡Hola! Soy tu asistente Kawaii 🌸', 'ai');
+    input.value = '';
 }
-
-// =======================
-// Tamagotchi kawaii peludito
-// =======================
-let petX = 300;
-let petY = 500;
-let dx = 1;
-let dy = 1;
-let moods = ['😊','😡','😴','😻'];
-let currentMood = 0;
-
-function movePet(){
-    petX += dx*2;
-    petY += dy*1.5;
-    if(petX<0 || petX>window.innerWidth-80) dx*=-1;
-    if(petY<200 || petY>window.innerHeight-80) dy*=-1;
-    pet.style.left = petX+'px';
-    pet.style.top = petY+'px';
-    pet.textContent = moods[currentMood];
-    requestAnimationFrame(movePet);
-}
-movePet();
-
-pet.addEventListener('mouseenter', ()=>{currentMood=3;});
-pet.addEventListener('mouseleave', ()=>{currentMood=0;});
