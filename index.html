@@ -10,16 +10,17 @@
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- Reproductor barra neon -->
+<!-- Barra reproductor neon -->
 <div class="music-bar">
   <input type="text" id="audioURL" placeholder="URL MP3 🎵">
   <button onclick="loadAudio()">Cargar</button>
   <button id="playBtn">▶️</button>
   <button id="pauseBtn">⏸️</button>
   <select id="radioSelect" onchange="changeRadio()">
-    <option value="">Radio 📻</option>
-    <option value="http://stream.radioreina.com.ar:8000/reina">Radio Reina</option>
-    <option value="http://stream.fantastica.com.ar:8000/fantastica">Radio Fantástica</option>
+    <option value="">Radio Anime 📻</option>
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Anime 1</option>
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Anime 2</option>
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">Anime 3</option>
   </select>
   <div id="progressBar"><div id="progress"></div></div>
   <audio id="audio"></audio>
