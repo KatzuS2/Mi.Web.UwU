@@ -31,20 +31,21 @@ function draw() {
 }
 draw();
 
-// --- Reproductor Universal ---
+// --- Reproductor de Música e Incrustación de Video ---
 function loadAudio() {
     const url = document.getElementById('audioURL').value.trim();
     if(!url) return;
-    const ytContainer = document.getElementById('youtubeContainer');
-    
+    audio.pause(); // Pausar cualquier audio directo previo
+
     if(url.includes('youtube.com') || url.includes('youtu.be')) {
         const id = url.includes('v=') ? new URL(url).searchParams.get('v') : url.split('/').pop();
-        ytContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay"></iframe>`;
-        audio.pause();
+        const videoElement = document.createElement('div');
+        videoElement.className = 'yt-chat-container';
+        videoElement.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media"></iframe>`;
+        appendMessage('Sintonizando video de YouTube...', 'ai', videoElement);
     } else {
-        ytContainer.innerHTML = '';
         audio.src = url;
-        audio.play().catch(e => appendMessage("Link no compatible para streaming directo.", "ai"));
+        audio.play().catch(e => appendMessage("Link no compatible.", "ai"));
     }
 }
 
@@ -59,18 +60,26 @@ async function sendMessage() {
     try {
         const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
         const data = await res.json();
-        appendMessage(data.extract || "No encontré datos exactos en el mainframe.", 'ai');
+        appendMessage(data.extract || "No encontré datos exactos.", 'ai');
     } catch {
-        appendMessage("Error de conexión con la red.", 'ai');
+        appendMessage("Error de conexión.", 'ai');
     }
 }
 
-function appendMessage(txt, cls) {
+function appendMessage(txt, cls, element = null) {
     const d = document.createElement('div');
     d.className = 'msg ' + cls;
     d.innerHTML = `<b>${cls.toUpperCase()}:</b> ${txt}`;
+    if (element) d.appendChild(element);
     chatBody.appendChild(d);
     chatBody.scrollTop = chatBody.scrollHeight;
+    blinkChat();
+}
+
+function blinkChat() {
+    const chat = document.getElementById('chatWindow');
+    chat.classList.add('chat-blink');
+    setTimeout(() => chat.classList.remove('chat-blink'), 200);
 }
 
 // --- Horóscopo Infinito ---
@@ -87,7 +96,5 @@ signos.forEach(s => {
 });
 
 async function fetchFortune(s) {
-    const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${s}&day=TODAY`);
-    const data = await res.json();
-    alert(`✨ ${s.toUpperCase()}: ${data.data.horoscope_data}`);
+    appendMessage(`Consultando suerte para ${s}...`, 'ai');
 }
