@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyberpunk UwU 💖</title>
+    <title>Cyberpunk UwU v.3.0 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,22 +13,12 @@
 
 <div class="music-bar">
   <div class="input-wrapper">
-    <input type="text" id="audioURL" placeholder="Inserta Link (YT/MP3/Stream) 💾">
+    <input type="text" id="audioURL" placeholder="YT Link o Nombre de Canción 💾">
     <button class="glow-btn" onclick="loadAudio()">📡 CARGAR</button>
   </div>
   <div class="media-controls">
     <button id="playBtn" class="icon-btn">▶</button>
     <button id="pauseBtn" class="icon-btn">⏸</button>
-  </div>
-  <div class="radio-section">
-    <select id="radioCategory" onchange="updateRadioList()">
-      <option value="">📟 GÉNERO</option>
-      <option value="anime">ANIME</option>
-      <option value="retro">RETRO</option>
-    </select>
-    <select id="radioSelect" onchange="changeRadio()">
-      <option value="">EMISORA</option>
-    </select>
   </div>
   <div id="progressBar"><div id="progress"></div></div>
   <audio id="audio"></audio>
@@ -39,22 +29,19 @@
     <div class="sparkles">✨</div>
 </div>
 
-<div class="ai-chat">
-    <div class="chat-header">🌸 NEURAL LINK v.2.0</div>
-    <div class="chat-body" id="chatBody"></div>
+<div class="ai-chat" id="chatWindow">
+    <div class="chat-header">🌸 NEURAL LINK v.3.0</div>
+    <div class="chat-body" id="chatBody">
+        </div>
     <div class="chat-input">
       <input type="text" id="userInput" placeholder="Sincronizar pregunta...">
       <button onclick="sendMessage()">ENVIAR</button>
     </div>
 </div>
 
-<div id="pet" class="tamagotchi-pet"></div>
-
 <div class="horoscope-slider">
     <div id="horoscopeBody" class="h-track"></div>
 </div>
-
-<div id="youtubeContainer" class="yt-frame"></div>
 
 <script src="script.js"></script>
 <script src="pet.js"></script>
