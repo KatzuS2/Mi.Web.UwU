@@ -1,3 +1,4 @@
+
 /* Reset */
 body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-serif; background:#0b0014; color:white; }
 
@@ -17,6 +18,7 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 .music-bar button{ background:linear-gradient(90deg,#ff33cc,#ff66cc); border:none; padding:6px 12px; border-radius:8px; cursor:pointer; }
 #progressBar{ flex:1; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; }
 #progress{ width:0%; height:100%; background:linear-gradient(90deg,#ff33cc,#ff66cc); border-radius:3px; transition:0.2s; }
+#youtubeContainer iframe{ margin-left:10px; width:200px; height:40px; border:none; }
 
 /* Título neon centrado */
 .title{
@@ -63,3 +65,8 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 .horoscope-header{ font-weight:bold; margin-bottom:10px; }
 .horoscope-body{ font-size:14px; display:flex; flex-wrap:wrap; justify-content:space-around; gap:5px; }
 .horoscope-body div{ background:#ff33cc; border-radius:8px; padding:4px 6px; font-size:12px; }
+
+/* Clima */
+.weather{
+  position:fixed; left:260px; bottom:20px; color:white; font-size:14px; text-align:left;
+}
