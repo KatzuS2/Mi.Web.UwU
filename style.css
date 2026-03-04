@@ -4,16 +4,10 @@
 position:absolute;
 bottom:-100px;
 border-radius:50%;
-opacity:0.6;
+opacity:0.4;
 animation: floatUp linear infinite;
+z-index:0;   /* 👈 importante */
 }
-
-@keyframes floatUp{
-from{
-transform:translateY(0);
-}
-to{
-transform:translateY(-110vh);
 }
 }
 /*titulo de uwu**/
