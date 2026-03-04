@@ -7,30 +7,25 @@ const progress = document.getElementById('progress');
 const radioSelect = document.getElementById('radioSelect');
 
 function loadAudio(){
-    if(audioURL.value.trim()==="") return alert("Pegá un MP3 🎵");
+    if(!audioURL.value.trim()) return alert("Pegá un MP3 🎵");
     audio.src = audioURL.value.trim();
     audio.load();
     audio.play();
 }
-
 playBtn.onclick = ()=>{ if(audio.src) audio.play(); }
 pauseBtn.onclick = ()=>{ audio.pause(); }
-
 audio.ontimeupdate = ()=>{
-    if(audio.duration){
-        progress.style.width = (audio.currentTime/audio.duration*100)+"%";
-    }
+    if(audio.duration) progress.style.width = (audio.currentTime/audio.duration*100)+"%";
 }
-
 function changeRadio(){
-    if(radioSelect.value!==""){
+    if(radioSelect.value){
         audio.src = radioSelect.value;
         audio.load();
         audio.play();
     }
 }
 
-// ====== CHAT AI ======
+// ====== CHAT AI SIMULADO (mejorado) ======
 const chatBody = document.getElementById('chatBody');
 const userInput = document.getElementById('userInput');
 
@@ -47,22 +42,41 @@ function sendMessage(){
     setTimeout(()=>{
         const aiMsg = document.createElement('div');
         aiMsg.className = 'msg ai';
-        aiMsg.textContent = "AI UwU 💖: " + msg.split("").reverse().join("");
+        // respuestas simuladas tipo mini Wikipedia
+        let response = miniWikiResponse(msg);
+        aiMsg.textContent = response;
         chatBody.appendChild(aiMsg);
         chatBody.scrollTop = chatBody.scrollHeight;
     },700);
 }
 
+function miniWikiResponse(input){
+    const lower = input.toLowerCase();
+    if(lower.includes("capital de francia")) return "La capital de Francia es París.";
+    if(lower.includes("python")) return "Python es un lenguaje de programación muy popular.";
+    if(lower.includes("tamagotchi")) return "Tamagotchi es un juego virtual de mascotas de los 90 muy famoso.";
+    if(lower.includes("uwu")) return "UwU es una expresión kawaii usada en internet.";
+    return "Lo siento, no sé la respuesta 😅 pero sigue preguntando!";
+}
+
 // ====== TAMAGOTCHI ======
 const pet = document.getElementById('pet');
-let bounce=0;
-setInterval(()=>{ bounce++; pet.style.transform=`translateY(${Math.sin(bounce/10)*10}px)`; },50);
+let petX = 100, petY = 100, dirX = 1, dirY = 1;
+function movePet(){
+    petX += dirX*2; petY += dirY*1.5;
+    if(petX<0 || petX>window.innerWidth-80) dirX*=-1;
+    if(petY<150 || petY>window.innerHeight-80) dirY*=-1;
+    pet.style.transform = `translate(${petX}px, ${petY}px)`;
+}
+setInterval(movePet,50);
+
+// Reacción al mouse
+pet.addEventListener('mouseenter', ()=>{ pet.style.transform += ' scale(1.2)'; setTimeout(()=>{pet.style.transform=`translate(${petX}px, ${petY}px)`},500); });
 
 // ====== HOROSCOPO ======
 const horoscopeBody = document.getElementById('horoscopeBody');
 const signs = ["Aries ♈","Tauro ♉","Géminis ♊","Cáncer ♋","Leo ♌","Virgo ♍","Libra ♎","Escorpio ♏","Sagitario ♐","Capricornio ♑","Acuario ♒","Piscis ♓"];
 let currentSign=0;
-
 function prevSign(){ currentSign=(currentSign-1+signs.length)%signs.length; horoscopeBody.textContent=signs[currentSign]; }
 function nextSign(){ currentSign=(currentSign+1)%signs.length; horoscopeBody.textContent=signs[currentSign]; }
 
@@ -70,10 +84,8 @@ function nextSign(){ currentSign=(currentSign+1)%signs.length; horoscopeBody.tex
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 let particles=[];
-
 function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-window.addEventListener('resize',resizeCanvas);
-resizeCanvas();
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
 
 document.addEventListener('mousemove',(e)=>{
     for(let i=0;i<3;i++){
