@@ -20,13 +20,55 @@ const weatherDiv = document.getElementById('weather');
 const pet = document.getElementById('pet');
 
 // =======================
+// Radios funcionales reales
+// =======================
+const radios = {
+    anime:[
+        {name:"Anime Radio 1", url:"https://stream.zeno.fm/7q8hn6vt9mruv"},
+        {name:"Anime Radio 2", url:"https://stream.zeno.fm/5vuztq0h3zquv"}
+    ],
+    nacional:[
+        {name:"Radio Nacional", url:"http://200.89.178.5:8000/radioweb"}
+    ],
+    local:[
+        {name:"Radio Local 1", url:"http://stream.localradio.com:8000/stream"}
+    ],
+    pop:[
+        {name:"Pop FM 1", url:"http://popfm.stream:8000/stream"}
+    ],
+    rock:[
+        {name:"Rock FM", url:"http://rockfm.stream:8000/stream"}
+    ]
+};
+
+function updateRadioList(){
+    const cat = radioCategory.value;
+    radioSelect.innerHTML = `<option value="">Seleccione Radio</option>`;
+    if(radios[cat]){
+        radios[cat].forEach(r=>{
+            const option = document.createElement('option');
+            option.value = r.url;
+            option.textContent = r.name;
+            radioSelect.appendChild(option);
+        });
+    }
+}
+
+function changeRadio(){
+    const url = radioSelect.value;
+    if(!url) return;
+    youtubeContainer.innerHTML = '';
+    audio.src = url;
+    audio.play();
+}
+
+// =======================
 // Reproductor MP3 y YouTube
 // =======================
 function loadAudio() {
     const url = audioURL.value.trim();
     if(!url) return;
     
-    // Si es YouTube
     if(url.includes('youtube.com') || url.includes('youtu.be')) {
         audio.pause();
         audio.src = '';
@@ -52,58 +94,9 @@ function extractYouTubeID(url){
 playBtn.onclick = ()=>audio.play();
 pauseBtn.onclick = ()=>audio.pause();
 
-// Actualizar barra de progreso
 audio.ontimeupdate = ()=>{
     if(audio.duration) progress.style.width = (audio.currentTime/audio.duration*100)+'%';
-}
-
-// =======================
-// Radios funcionales
-// =======================
-const radios = {
-    anime:[
-        {name:"Radio Anime 1", url:"https://radio-stream-url-1"},
-        {name:"Radio Anime 2", url:"https://radio-stream-url-2"},
-        {name:"Radio Anime 3", url:"https://radio-stream-url-3"}
-    ],
-    nacional:[
-        {name:"Radio Nacional 1", url:"https://radio-stream-url-4"},
-        {name:"Radio Nacional 2", url:"https://radio-stream-url-5"}
-    ],
-    local:[
-        {name:"Radio Local 1", url:"https://radio-stream-url-6"},
-        {name:"Radio Local 2", url:"https://radio-stream-url-7"}
-    ],
-    pop:[
-        {name:"Radio Pop 1", url:"https://radio-stream-url-8"},
-        {name:"Radio Pop 2", url:"https://radio-stream-url-9"}
-    ],
-    rock:[
-        {name:"Radio Rock 1", url:"https://radio-stream-url-10"},
-        {name:"Radio Rock 2", url:"https://radio-stream-url-11"}
-    ]
 };
-
-function updateRadioList(){
-    const cat = radioCategory.value;
-    radioSelect.innerHTML = `<option value="">Seleccione Radio</option>`;
-    if(radios[cat]){
-        radios[cat].forEach((r,i)=>{
-            const option = document.createElement('option');
-            option.value = r.url;
-            option.textContent = r.name;
-            radioSelect.appendChild(option);
-        });
-    }
-}
-
-function changeRadio(){
-    const url = radioSelect.value;
-    if(!url) return;
-    youtubeContainer.innerHTML = '';
-    audio.src = url;
-    audio.play();
-}
 
 // =======================
 // Partículas kawaii 0/1
@@ -160,7 +153,7 @@ window.onresize = ()=>{
 }
 
 // =======================
-// Chat AI Wikipedia + fecha/clima
+// Chat IA con OpenAI
 // =======================
 async function sendMessage(){
     const question = userInput.value.trim();
@@ -189,17 +182,17 @@ async function sendMessage(){
         return;
     }
 
-    // Pregunta Wikipedia
+    // Pregunta OpenAI
     try{
-        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(question)}`);
-        const json = await res.json();
-        if(json.extract){
-            appendMessage(json.extract,'ai');
-        } else {
-            appendMessage('No encontré información sobre eso.','ai');
-        }
+        const res = await fetch('/api/chat', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({message:question})
+        });
+        const data = await res.json();
+        appendMessage(data.reply,'ai');
     } catch(e){
-        appendMessage('Error al consultar Wikipedia.','ai');
+        appendMessage('Error al conectar con la IA.','ai');
     }
 }
 
@@ -235,7 +228,7 @@ async function fetchHoroscope(signo){
 }
 
 // =======================
-// Tamagotchi pixel 90s con vida
+// Tamagotchi kawaii peludito
 // =======================
 let petX = 300;
 let petY = 500;
@@ -256,5 +249,5 @@ function movePet(){
 }
 movePet();
 
-pet.addEventListener('mouseenter', ()=>{currentMood=3;}); // feliz si lo acaricias
-pet.addEventListener('mouseleave', ()=>{currentMood=0;}); // vuelve a normal
+pet.addEventListener('mouseenter', ()=>{currentMood=3;});
+pet.addEventListener('mouseleave', ()=>{currentMood=0;});
