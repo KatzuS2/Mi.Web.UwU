@@ -103,21 +103,22 @@ cursor:pointer;
 
 <!-- REPRODUCTOR -->
 <div class="cloud-player">
-<h3>☁️ Kawaii Music</h3>
+  <div class="cloud-shape"></div>
+  
+  <div class="player-content">
+    <h3>☁️ Kawaii Cloud Player</h3>
 
-<input id="ytlink" placeholder="Pega link YouTube embed" style="width:100%">
-<button onclick="loadYT()">Reproducir</button>
+    <input id="ytlink" placeholder="Pega link YouTube..." />
+    <button onclick="loadYT()">▶ Reproducir</button>
 
-<br><br>
+    <div class="visualizer"></div>
 
-<audio controls id="radio">
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
-</audio>
+    <audio controls id="radio">
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+    </audio>
 
-<div class="bubble" style="left:50px;animation-duration:4s"></div>
-<div class="bubble" style="left:100px;animation-duration:6s"></div>
-
-<div id="ytplayer"></div>
+    <div id="ytplayer"></div>
+  </div>
 </div>
 
 <!-- ASISTENTE GATITO -->
