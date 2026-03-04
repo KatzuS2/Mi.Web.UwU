@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UwU 💖</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UwU 💖</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- Barra reproductor neon -->
 <div class="music-bar">
-  <input type="text" id="audioURL" placeholder="URL MP3 o YouTube 🎵">
-  <button onclick="loadAudio()">Cargar</button>
+  <input type="text" id="audioURL" placeholder="Escribe una canción o pega link 🎵">
+  <button onclick="loadAudio()">🔍 Buscar/Cargar</button>
   <button id="playBtn">▶️</button>
   <button id="pauseBtn">⏸️</button>
   <select id="radioCategory" onchange="updateRadioList()">
     <option value="">Categoría Radio</option>
     <option value="anime">Anime</option>
-    <option value="nacional">Nacional</option>
-    <option value="local">Local</option>
     <option value="pop">Pop</option>
     <option value="rock">Rock</option>
   </select>
@@ -32,12 +29,12 @@
   <div id="youtubeContainer"></div>
 </div>
 
-<!-- Título neon centrado -->
-<h1 class="title">UwU 💖</h1>
+<div class="title-container">
+    <h1 class="title">UwU 💖</h1>
+    <div class="sparkles"></div>
+</div>
 
 <div class="layout">
-
-  <!-- Chat AI -->
   <div class="ai-chat">
     <div class="chat-header">🌸 AI Assistant</div>
     <div class="chat-body" id="chatBody"></div>
@@ -47,20 +44,14 @@
     </div>
   </div>
 
-  <!-- Tamagotchi kawaii -->
   <div class="tamagotchi">
-    <div class="pet" id="pet"></div>
+    <div class="pet" id="pet">😊</div>
   </div>
 
-  <!-- Horóscopo -->
   <div class="horoscope">
     <div class="horoscope-header">🪐 Horóscopos</div>
     <div class="horoscope-body" id="horoscopeBody"></div>
   </div>
-
-  <!-- Clima -->
-  <div class="weather" id="weather"></div>
-
 </div>
 
 <script src="script.js"></script>
