@@ -12,18 +12,24 @@
 
 <!-- Barra reproductor neon -->
 <div class="music-bar">
-  <input type="text" id="audioURL" placeholder="URL MP3 🎵">
+  <input type="text" id="audioURL" placeholder="URL MP3 o YouTube 🎵">
   <button onclick="loadAudio()">Cargar</button>
   <button id="playBtn">▶️</button>
   <button id="pauseBtn">⏸️</button>
+  <select id="radioCategory" onchange="updateRadioList()">
+    <option value="">Categoría Radio</option>
+    <option value="anime">Anime</option>
+    <option value="nacional">Nacional</option>
+    <option value="local">Local</option>
+    <option value="pop">Pop</option>
+    <option value="rock">Rock</option>
+  </select>
   <select id="radioSelect" onchange="changeRadio()">
-    <option value="">Radio Anime 📻</option>
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Anime 1</option>
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Anime 2</option>
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">Anime 3</option>
+    <option value="">Seleccione Radio</option>
   </select>
   <div id="progressBar"><div id="progress"></div></div>
   <audio id="audio"></audio>
+  <div id="youtubeContainer"></div>
 </div>
 
 <!-- Título neon centrado -->
@@ -52,6 +58,9 @@
     <div class="horoscope-header">🪐 Horóscopos</div>
     <div class="horoscope-body" id="horoscopeBody"></div>
   </div>
+
+  <!-- Clima -->
+  <div class="weather" id="weather"></div>
 
 </div>
 
