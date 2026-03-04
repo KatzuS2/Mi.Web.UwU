@@ -1,0 +1,62 @@
+.cloud-player{
+position:absolute;
+top:20px;
+right:20px;
+width:320px;
+height:260px;
+}
+
+.cloud-shape{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.6);
+border-radius:50px;
+box-shadow:
+0 0 40px #aee7ff,
+inset 0 0 40px white;
+backdrop-filter: blur(15px);
+}
+
+.player-content{
+position:relative;
+padding:20px;
+z-index:2;
+}
+
+input{
+width:100%;
+border:none;
+border-radius:20px;
+padding:5px;
+background:#ffe6fa;
+margin-bottom:5px;
+}
+
+button{
+border:none;
+border-radius:20px;
+padding:5px 15px;
+background:#ff8ad6;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#8ad6ff;
+transform:scale(1.1);
+}
+
+.visualizer{
+height:20px;
+margin:10px 0;
+background:linear-gradient(90deg,#ff8ad6,#8ad6ff);
+animation:pulse 1s infinite alternate;
+border-radius:10px;
+}
+
+@keyframes pulse{
+from{opacity:0.4;}
+to{opacity:1;}
+}
