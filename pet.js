@@ -1,42 +1,45 @@
-const petEl = document.getElementById('pet');
-let mood = "😊";
-let energy = 100;
+
+const chatWindow = document.getElementById('chatWindow');
+const petEl = document.createElement('div');
+petEl.className = 'cyber-zorro';
+document.body.appendChild(petEl);
+
 let x = 100, y = 300;
-let velX = 1.2, velY = 0.8;
+let velX = 1.5, velY = 1.0;
+let isBlinking = false;
+let direction = 1;
 
 function updatePet() {
-    // Movimiento rebotante
+    // Movimiento rebotante por la pantalla
     x += velX; y += velY;
-    if(x <= 0 || x >= window.innerWidth - 70) velX *= -1;
-    if(y <= 100 || y >= window.innerHeight - 100) velY *= -1;
-
-    // Estados emocionales
-    if(energy < 30) mood = "😴";
-    else if(energy > 80) mood = "😸";
-    else mood = "😊";
+    if(x <= 0 || x >= window.innerWidth - 60) {
+        velX *= -1; direction *= -1;
+    }
+    if(y <= 100 || y >= window.innerHeight - 80) velY *= -1;
 
     petEl.style.left = x + 'px';
     petEl.style.top = y + 'px';
-    petEl.innerText = mood;
+    petEl.style.transform = `scaleX(${direction})`; // Voltear cuando cambia de dirección
+
+    // Pestañeo aleatorio
+    if(Math.random() < 0.005) blink();
+
+    // "Maullido" aleatorio en el chat
+    if(Math.random() < 0.001) meow();
     
-    energy -= 0.05; // Se cansa con el tiempo
     requestAnimationFrame(updatePet);
 }
 
-// Reacciona al click (Felicidad)
-petEl.onclick = () => {
-    energy = 100;
-    mood = "💖";
-    petEl.style.transform = "scale(1.4)";
-    setTimeout(() => petEl.style.transform = "scale(1)", 500);
-};
+function meow() {
+    // Usamos appendMessage de script.js, asegurándonos de que esté disponible
+    if (typeof appendMessage === 'function') {
+        appendMessage('miau!', 'ai');
+    }
+}
 
-// Reacciona si el usuario se va (Tristeza simulada al dejar de mover el mouse)
-let idleTimer;
-window.onmousemove = () => {
-    clearTimeout(idleTimer);
-    if(mood === "😢") mood = "😊";
-    idleTimer = setTimeout(() => { mood = "😢"; }, 10000); 
-};
+function blink() {
+    petEl.classList.add('blinking');
+    setTimeout(() => petEl.classList.remove('blinking'), 150);
+}
 
 updatePet();
