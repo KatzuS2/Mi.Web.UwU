@@ -1,3 +1,4 @@
+
 // ====== REPRODUCTOR ======
 const audio = document.getElementById('audio');
 const audioURL = document.getElementById('audioURL');
@@ -25,11 +26,11 @@ function changeRadio(){
     }
 }
 
-// ====== CHAT AI SIMULADO (mejorado) ======
+// ====== CHAT AI con Wikipedia ======
 const chatBody = document.getElementById('chatBody');
 const userInput = document.getElementById('userInput');
 
-function sendMessage(){
+async function sendMessage(){
     const msg = userInput.value.trim();
     if(!msg) return;
     const userMsg = document.createElement('div');
@@ -39,46 +40,48 @@ function sendMessage(){
     userInput.value = '';
     chatBody.scrollTop = chatBody.scrollHeight;
 
-    setTimeout(()=>{
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'msg ai';
-        // respuestas simuladas tipo mini Wikipedia
-        let response = miniWikiResponse(msg);
-        aiMsg.textContent = response;
-        chatBody.appendChild(aiMsg);
-        chatBody.scrollTop = chatBody.scrollHeight;
-    },700);
-}
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.textContent = "Buscando respuesta... ⏳";
+    chatBody.appendChild(aiMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
 
-function miniWikiResponse(input){
-    const lower = input.toLowerCase();
-    if(lower.includes("capital de francia")) return "La capital de Francia es París.";
-    if(lower.includes("python")) return "Python es un lenguaje de programación muy popular.";
-    if(lower.includes("tamagotchi")) return "Tamagotchi es un juego virtual de mascotas de los 90 muy famoso.";
-    if(lower.includes("uwu")) return "UwU es una expresión kawaii usada en internet.";
-    return "Lo siento, no sé la respuesta 😅 pero sigue preguntando!";
+    try {
+        const response = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(msg)}`);
+        const data = await response.json();
+        if(data.extract){
+            aiMsg.textContent = data.extract;
+        } else { aiMsg.textContent = "No encontré información 😅"; }
+    } catch(e){
+        aiMsg.textContent = "Error al buscar información 😢";
+    }
+    chatBody.scrollTop = chatBody.scrollHeight;
 }
 
 // ====== TAMAGOTCHI ======
 const pet = document.getElementById('pet');
 let petX = 100, petY = 100, dirX = 1, dirY = 1;
+
 function movePet(){
     petX += dirX*2; petY += dirY*1.5;
     if(petX<0 || petX>window.innerWidth-80) dirX*=-1;
     if(petY<150 || petY>window.innerHeight-80) dirY*=-1;
-    pet.style.transform = `translate(${petX}px, ${petY}px)`;
+    pet.style.transform = `translate(${petX}px, ${petY}px) scale(${petHover?1.2:1})`;
 }
+let petHover=false;
+pet.addEventListener('mouseenter', ()=>{ petHover=true; });
+pet.addEventListener('mouseleave', ()=>{ petHover=false; });
+
 setInterval(movePet,50);
 
-// Reacción al mouse
-pet.addEventListener('mouseenter', ()=>{ pet.style.transform += ' scale(1.2)'; setTimeout(()=>{pet.style.transform=`translate(${petX}px, ${petY}px)`},500); });
-
-// ====== HOROSCOPO ======
+// ====== HOROSCOPO TODOS LOS SIGNOS ======
 const horoscopeBody = document.getElementById('horoscopeBody');
 const signs = ["Aries ♈","Tauro ♉","Géminis ♊","Cáncer ♋","Leo ♌","Virgo ♍","Libra ♎","Escorpio ♏","Sagitario ♐","Capricornio ♑","Acuario ♒","Piscis ♓"];
-let currentSign=0;
-function prevSign(){ currentSign=(currentSign-1+signs.length)%signs.length; horoscopeBody.textContent=signs[currentSign]; }
-function nextSign(){ currentSign=(currentSign+1)%signs.length; horoscopeBody.textContent=signs[currentSign]; }
+horoscopeBody.innerHTML = '';
+signs.forEach(s => {
+    const div = document.createElement('div'); div.textContent = s;
+    horoscopeBody.appendChild(div);
+});
 
 // ====== PARTICULAS 0 Y 1 ======
 const canvas = document.getElementById('bgCanvas');
