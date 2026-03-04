@@ -56,11 +56,56 @@ body, html { margin:0; padding:0; overflow:hidden; font-family:'Segoe UI', sans-
 @keyframes scrollHoroscope { from { transform:translateX(100%); } to { transform:translateX(-100%); } }
 
 /* Ciber-Zorro Tamagotchi */
+/* Ciber-Zorro Tamagotchi - Diseño Pro */
 .cyber-zorro {
-    position: fixed; width: 60px; height: 60px; z-index: 200; pointer-events: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="30" fill="white" stroke="black" stroke-width="2"/><ellipse cx="30" cy="40" rx="8" ry="15" fill="black"/><ellipse cx="70" cy="40" rx="8" ry="15" fill="black"/><ellipse cx="30" cy="40" rx="3" ry="6" fill="white"/><ellipse cx="70" cy="40" rx="3" ry="6" fill="white"/><polygon points="45,60 55,60 50,70" fill="pink"/><path d="M40,75 Q50,85 60,75" stroke="black" fill="none" stroke-width="2"/><polygon points="20,20 35,5 45,20" fill="purple" stroke="black" stroke-width="2"/><polygon points="80,20 65,5 55,20" fill="purple" stroke="black" stroke-width="2"/><ellipse cx="10" cy="50" rx="5" ry="10" fill="blue" stroke="black"/><ellipse cx="90" cy="50" rx="5" ry="10" fill="blue" stroke="black"/></svg>');
-    background-size: contain; background-repeat: no-repeat;
-    animation: walkAnimation 0.5s infinite steps(2);
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    z-index: 9999; /* Por encima de todo */
+    pointer-events: auto; /* Para que puedas hacerle clic */
+    cursor: grab;
+    background: #5a32a8; /* Color base morado de la imagen */
+    border: 3px solid #33ccff;
+    border-radius: 20px 20px 40px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #33ccff;
+    transition: transform 0.1s linear;
 }
-@keyframes walkAnimation { 0%, 100% { transform: translateY(0) scaleX(1); } 50% { transform: translateY(-3px) scaleX(1); } }
-.blinking { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="30" fill="white" stroke="black" stroke-width="2"/><ellipse cx="30" cy="40" rx="8" ry="1" fill="black"/><ellipse cx="70" cy="40" rx="8" ry="1" fill="black"/><polygon points="45,60 55,60 50,70" fill="pink"/><path d="M40,75 Q50,85 60,75" stroke="black" fill="none" stroke-width="2"/><polygon points="20,20 35,5 45,20" fill="purple" stroke="black" stroke-width="2"/><polygon points="80,20 65,5 55,20" fill="purple" stroke="black" stroke-width="2"/><ellipse cx="10" cy="50" rx="5" ry="10" fill="blue" stroke="black"/><ellipse cx="90" cy="50" rx="5" ry="10" fill="blue" stroke="black"/></svg>'); }
+
+/* Ojos del zorro */
+.cyber-zorro::before, .cyber-zorro::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    width: 12px;
+    height: 18px;
+    background: #000;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff;
+}
+.cyber-zorro::before { left: 15px; }
+.cyber-zorro::after { right: 15px; }
+
+/* Efecto pestañeo */
+.blinking::before, .blinking::after {
+    height: 2px !important;
+    top: 33px !important;
+}
+
+/* Orejas */
+.ears {
+    position: absolute;
+    top: -20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+.ear {
+    width: 0; height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #5a32a8;
+}
