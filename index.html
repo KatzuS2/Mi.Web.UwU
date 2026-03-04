@@ -1,25 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Web de Katy</title>
-    <style>
-        body {
-            background-color: black;
-            color: #7f5af0;
-            font-family: Arial;
-            text-align: center;
-            padding-top: 100px;
-        }
+<meta charset="UTF-8">
+<title>Katy Kawaii World 💖</title>
 
-        h1 {
-            color: #00bfff;
-        }
-    </style>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: "Comic Sans MS", cursive;
+    background: linear-gradient(135deg, #ffd6f6, #c8f1ff);
+}
+
+/* Letrero UwU */
+.title {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    text-align: center;
+    font-size: 70px;
+    color: #ff8ad6;
+    text-shadow: 0 0 20px white;
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Burbujas */
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: rise 10s infinite;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0); opacity:1; }
+    100% { transform: translateY(-120vh); opacity:0; }
+}
+
+/* Mascotas */
+.pet {
+    position: absolute;
+    font-size: 50px;
+    animation: move 20s linear infinite;
+}
+
+@keyframes move {
+    0% { left: -10%; }
+    100% { left: 110%; }
+}
+
+/* Estrellitas */
+.star {
+    position: absolute;
+    color: white;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+/* Radio */
+.radio {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: #ffe6fa;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #ffb3ec;
+}
+</style>
 </head>
+
 <body>
 
-    <h1>Bienvenidos a mi web 💜</h1>
-    <p>Soy Katy y estoy aprendiendo desarrollo web.</p>
+<div class="title">UwU 💖 Bienvenida al Mundo Kawaii ✨</div>
+
+<!-- Radio -->
+<div class="radio">
+📻 Radio Kawaii <br>
+<audio controls autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+</div>
+
+<script>
+
+/* Crear burbujas */
+for(let i=0;i<20;i++){
+    let bubble = document.createElement("div");
+    bubble.className="bubble";
+    bubble.style.left=Math.random()*100+"vw";
+    bubble.style.animationDuration=(5+Math.random()*5)+"s";
+    bubble.style.width=bubble.style.height=(20+Math.random()*50)+"px";
+    document.body.appendChild(bubble);
+}
+
+/* Crear estrellas */
+for(let i=0;i<40;i++){
+    let star = document.createElement("div");
+    star.className="star";
+    star.innerHTML="✨";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    document.body.appendChild(star);
+}
+
+/* Mascotas chibi */
+let pets = ["🐰","🐱","🐻","🐼","🐶","🦄","🐹"];
+for(let i=0;i<pets.length;i++){
+    let pet = document.createElement("div");
+    pet.className="pet";
+    pet.innerHTML=pets[i];
+    pet.style.top=(60+Math.random()*30)+"vh";
+    pet.style.animationDuration=(10+Math.random()*20)+"s";
+    document.body.appendChild(pet);
+}
+
+</script>
 
 </body>
 </html>
