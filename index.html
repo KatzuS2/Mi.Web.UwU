@@ -9,91 +9,36 @@
 </head>
 <body>
 
-<!-- BURBUJAS -->
-<div class="bubbles"></div>
+<div class="background"></div>
 
-<!-- TITULO -->
-<div class="title">UwU</div>
+<h1 class="title">UwU</h1>
 
-<!-- REPRODUCTOR NUBE -->
-<div class="cloud-player">
-  <div class="cloud-shape"></div>
-  <div class="player-content">
+<div class="layout">
+
+  <div class="cloud-player">
     <h3>☁️ Dream Player</h3>
-    <input type="text" id="audioURL" placeholder="Pegá tu link MP3 aquí ✨">
+    <input type="text" id="audioURL" placeholder="Pegá tu MP3 ✨">
     <button onclick="loadAudio()">Cargar</button>
     <audio id="audio" controls></audio>
-    <div class="visualizer"></div>
   </div>
+
+  <div class="ai-chat">
+    <div class="chat-header">🌸 AI Assistant</div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
 </div>
 
-<!-- CHAT IA -->
-<div class="ai-chat">
-  <div class="chat-header">🌸 AI Assistant</div>
-  <div class="chat-body" id="chatBody"></div>
-  <div class="chat-input">
-    <input type="text" id="userInput" placeholder="Escribí algo lindo...">
-    <button onclick="sendMessage()">Enviar</button>
-  </div>
-</div>
-
-<!-- TAMAGOTCHI -->
 <div class="tamagotchi">
   <div class="pet-screen">
     <div class="pet" id="pet"></div>
   </div>
-  <div class="pet-controls">
-    <button onclick="feedPet()">🍓</button>
-    <button onclick="playPet()">🎮</button>
-    <button onclick="sleepPet()">💤</button>
-  </div>
 </div>
 
-<script>
-/* BURBUJAS */
-const bubbleContainer = document.querySelector('.bubbles');
-for(let i=0;i<25;i++){
-  let b = document.createElement("div");
-  b.className="bubble";
-  b.style.left=Math.random()*100+"vw";
-  b.style.animationDuration=(6+Math.random()*6)+"s";
-  b.style.width=b.style.height=(40+Math.random()*80)+"px";
-  bubbleContainer.appendChild(b);
-}
-
-/* AUDIO */
-function loadAudio(){
-  const url=document.getElementById("audioURL").value;
-  document.getElementById("audio").src=url;
-}
-
-/* CHAT */
-function sendMessage(){
-  const input=document.getElementById("userInput");
-  const body=document.getElementById("chatBody");
-  if(input.value.trim()=="") return;
-  body.innerHTML+=`<div class="msg user">${input.value}</div>`;
-  setTimeout(()=>{
-    body.innerHTML+=`<div class="msg ai">UwU dice: ${input.value} 💖</div>`;
-    body.scrollTop=body.scrollHeight;
-  },600);
-  input.value="";
-}
-
-/* TAMAGOTCHI */
-let pet=document.getElementById("pet");
-let mood=0;
-
-function animatePet(){
-  pet.style.transform=`translateX(${Math.sin(Date.now()/500)*10}px)`;
-  requestAnimationFrame(animatePet);
-}
-animatePet();
-
-function feedPet(){ mood+=2; }
-function playPet(){ mood+=1; }
-function sleepPet(){ mood=0; }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
