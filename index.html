@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UwU 💖</title>
+    <title>UwU Virtual World 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,48 +12,61 @@
 <canvas id="bgCanvas"></canvas>
 
 <div class="music-bar">
-  <input type="text" id="audioURL" placeholder="Escribe una canción o pega link 🎵">
-  <button onclick="loadAudio()">🔍 Buscar/Cargar</button>
-  <button id="playBtn">▶️</button>
-  <button id="pauseBtn">⏸️</button>
-  <select id="radioCategory" onchange="updateRadioList()">
-    <option value="">Categoría Radio</option>
-    <option value="anime">Anime</option>
-    <option value="pop">Pop</option>
-    <option value="rock">Rock</option>
-  </select>
-  <select id="radioSelect" onchange="changeRadio()">
-    <option value="">Seleccione Radio</option>
-  </select>
+  <div class="search-group">
+    <input type="text" id="audioURL" placeholder="Escribe canción o pega link... 🎵">
+    <button class="btn-neon" onclick="loadAudio()">🔍 Buscar</button>
+  </div>
+  <div class="controls">
+    <button class="btn-ctrl" id="playBtn">▶️</button>
+    <button class="btn-ctrl" id="pauseBtn">⏸️</button>
+  </div>
+  <div class="radio-group">
+    <select id="radioCategory" onchange="updateRadioList()">
+      <option value="">📻 Género</option>
+      <option value="lofi">Lofi/Estudio</option>
+      <option value="retro">80s Retro</option>
+      <option value="kpop">K-Pop</option>
+    </select>
+    <select id="radioSelect" onchange="changeRadio()">
+      <option value="">Selecciona emisora</option>
+    </select>
+  </div>
   <div id="progressBar"><div id="progress"></div></div>
-  <audio id="audio"></audio>
-  <div id="youtubeContainer"></div>
+  <audio id="audio" crossorigin="anonymous"></audio>
 </div>
 
 <div class="title-container">
-    <h1 class="title">UwU 💖</h1>
-    <div class="sparkles"></div>
+    <h1 class="title">UwU</h1>
+    <div class="sparkle-effect"></div>
 </div>
 
-<div class="layout">
+<div class="main-content">
   <div class="ai-chat">
-    <div class="chat-header">🌸 AI Assistant</div>
+    <div class="chat-header">🌐 NEURAL INTERFACE (Wiki-Enabled)</div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Pregúntame algo...">
+      <input type="text" id="userInput" placeholder="Pregunta lo que sea...">
       <button onclick="sendMessage()">Enviar</button>
     </div>
   </div>
 
-  <div class="tamagotchi">
-    <div class="pet" id="pet">😊</div>
-  </div>
-
-  <div class="horoscope">
-    <div class="horoscope-header">🪐 Horóscopos</div>
-    <div class="horoscope-body" id="horoscopeBody"></div>
+  <div class="horoscope-card">
+    <div class="h-header">🪐 Oráculo Estelar</div>
+    <div id="horoscopeBody" class="h-grid"></div>
+    <div id="horoscopeResult" class="h-result">Selecciona tu signo para ver tu destino...</div>
   </div>
 </div>
+
+<div class="tamagotchi-case" id="petContainer">
+    <div class="pet-screen">
+        <div class="pet" id="pet">v(^_^)v</div>
+    </div>
+    <div class="t-buttons">
+        <span></span><span></span><span></span>
+    </div>
+</div>
+
+<div id="youtubeContainer" class="yt-hidden"></div>
 
 <script src="script.js"></script>
 </body>
