@@ -1,44 +1,49 @@
 
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UwU 💖</title>
+<title>UwU 💖 Futuristic</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="background"></div>
+<!-- Fondo animado -->
+<canvas id="bgCanvas"></canvas>
 
-<h1 class="title">UwU</h1>
-
-<div class="layout">
-
-  <div class="cloud-player">
-    <h3>☁️ Dream Player</h3>
-    <input type="text" id="audioURL" placeholder="Pegá tu MP3 ✨">
-    <button onclick="loadAudio()">Cargar</button>
-    <audio id="audio" controls></audio>
+<!-- Reproductor nube -->
+<div class="cloud-player">
+  <h3>☁️ Dream Player</h3>
+  <input type="text" id="audioURL" placeholder="Pegá tu MP3 ✨">
+  <button onclick="loadAudio()">Cargar</button>
+  <div class="player-controls">
+    <button id="playBtn">▶️</button>
+    <button id="pauseBtn">⏸️</button>
+    <div id="progressBar"><div id="progress"></div></div>
   </div>
+  <audio id="audio"></audio>
+</div>
 
+<!-- Layout principal -->
+<div class="layout">
+  <!-- Chat futurista -->
   <div class="ai-chat">
     <div class="chat-header">🌸 AI Assistant</div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-input">
-      <input type="text" id="userInput">
+      <input type="text" id="userInput" placeholder="Escribí algo...">
       <button onclick="sendMessage()">Enviar</button>
     </div>
   </div>
 
-</div>
-
-<div class="tamagotchi">
-  <div class="pet-screen">
+  <!-- Tamagotchi -->
+  <div class="tamagotchi">
     <div class="pet" id="pet"></div>
   </div>
 </div>
 
 <script src="script.js"></script>
+<script src="particles.js"></script> <!-- para las partículas 0 y 1 -->
 </body>
 </html>
