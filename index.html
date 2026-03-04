@@ -1,33 +1,38 @@
 
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UwU 💖 Futuristic</title>
+<title>UwU</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Fondo animado -->
+<!-- Canvas fondo partículas -->
 <canvas id="bgCanvas"></canvas>
 
-<!-- Reproductor nube -->
-<div class="cloud-player">
-  <h3>☁️ Dream Player</h3>
-  <input type="text" id="audioURL" placeholder="Pegá tu MP3 ✨">
+<!-- Barra reproductor -->
+<div class="music-bar">
+  <input type="text" id="audioURL" placeholder="URL MP3 🎵">
   <button onclick="loadAudio()">Cargar</button>
-  <div class="player-controls">
-    <button id="playBtn">▶️</button>
-    <button id="pauseBtn">⏸️</button>
-    <div id="progressBar"><div id="progress"></div></div>
-  </div>
+  <button id="playBtn">▶️</button>
+  <button id="pauseBtn">⏸️</button>
+  <select id="radioSelect" onchange="changeRadio()">
+    <option value="">Radio 📻</option>
+    <option value="http://stream.radioreina.com.ar:8000/reina">Radio Reina</option>
+    <option value="http://stream.fantastica.com.ar:8000/fantastica">Radio Fantástica</option>
+  </select>
+  <div id="progressBar"><div id="progress"></div></div>
   <audio id="audio"></audio>
 </div>
 
+<!-- Título neon -->
+<h1 class="title">UwU</h1>
+
 <!-- Layout principal -->
 <div class="layout">
-  <!-- Chat futurista -->
+  <!-- Chat AI -->
   <div class="ai-chat">
     <div class="chat-header">🌸 AI Assistant</div>
     <div class="chat-body" id="chatBody"></div>
@@ -37,13 +42,22 @@
     </div>
   </div>
 
-  <!-- Tamagotchi -->
+  <!-- Tamagotchi años 90 -->
   <div class="tamagotchi">
     <div class="pet" id="pet"></div>
+  </div>
+
+  <!-- Horóscopo -->
+  <div class="horoscope">
+    <div class="horoscope-header">🪐 Horóscopo</div>
+    <div class="horoscope-body" id="horoscopeBody">Aries ♈</div>
+    <div class="horoscope-controls">
+      <button onclick="prevSign()">◀️</button>
+      <button onclick="nextSign()">▶️</button>
+    </div>
   </div>
 </div>
 
 <script src="script.js"></script>
-<script src="particles.js"></script> <!-- para las partículas 0 y 1 -->
 </body>
 </html>
