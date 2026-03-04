@@ -1,235 +1,243 @@
 
-/** fondo de burbujas**/ 
-.bubble-bg{
-position:absolute;
-bottom:-100px;
-border-radius:50%;
-opacity:0.4;
-animation: floatUp linear infinite;
-z-index:0;   /* 👈 importante */
+body{
+margin:0;
+overflow:hidden;
+font-family: 'Segoe UI', sans-serif;
+background: radial-gradient(circle at top,#1a0025,#000);
+color:white;
 }
-}
-}
-/*titulo de uwu**/
 
-/* TITULO */
+/* ================= BURBUJAS ANIME ================= */
+
+.bubbles{
+position:fixed;
+width:100%;
+height:100%;
+z-index:0;
+overflow:hidden;
+}
+
+.bubble{
+position:absolute;
+bottom:-150px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,182,255,0.3), rgba(255,105,180,0.15));
+backdrop-filter: blur(4px);
+animation:floatUp linear infinite;
+}
+
+.bubble::after{
+content:"";
+position:absolute;
+top:20%;
+left:25%;
+width:20%;
+height:20%;
+background:white;
+border-radius:50%;
+opacity:0.8;
+}
+
+@keyframes floatUp{
+to{transform:translateY(-120vh);}
+}
+
+/* ================= TITULO ================= */
+
 .title{
 position:absolute;
-top:20px;
+top:30px;
 width:100%;
 text-align:center;
-font-size:120px;
+font-size:130px;
 font-weight:bold;
-letter-spacing:10px;
+letter-spacing:15px;
+z-index:10;
 
-/* Centro blanco */
-color:#ffffff;
+background:linear-gradient(90deg,#ffb3ec,#ff66cc,#ffffff);
+-webkit-background-clip:text;
+color:transparent;
 
-/* Neon rosa pastel profundo */
 text-shadow:
-0 0 5px #ffffff,
-0 0 15px #ffe6fb,
-0 0 30px #ffb3ec,
-0 0 60px #ff94e6,
-0 0 100px #ff66cc,
-0 0 150px #ff33cc;
-
-animation:neonPulse 2s infinite alternate;
+0 0 10px #ffb3ec,
+0 0 30px #ff66cc,
+0 0 60px #ff33cc,
+0 0 120px #ff00cc;
+animation: glow 2s infinite alternate;
 }
 
-/* Animación glow respirando */
-@keyframes neonPulse{
-from{
-text-shadow:
-0 0 5px #ffffff,
-0 0 20px #ffd6f6,
-0 0 40px #ffb3ec,
-0 0 80px #ff94e6,
-0 0 120px #ff66cc,
-0 0 170px #ff33cc;
-}
-to{
-text-shadow:
-0 0 10px #ffffff,
-0 0 30px #ffc2f0,
-0 0 60px #ff99e6,
-0 0 100px #ff66cc,
-0 0 160px #ff33cc,
-0 0 220px #ff00cc;
-}
+@keyframes glow{
+from{filter:brightness(1);}
+to{filter:brightness(1.4);}
 }
 
-/* Brillitos */
-.title::after{
-content:" ✨ ✧ ✦ ✨";
-font-size:30px;
-margin-left:15px;
-animation:sparkle 1.5s infinite alternate;
-}
-
-@keyframes sparkle{
-from{opacity:0.4; transform:translateY(0);}
-to{opacity:1; transform:translateY(-6px);}
-}    0 0 10px #ffe6fb,
-    0 0 20px #ffb3ec,
-    0 0 40px #ff94e6,
-    0 0 80px #ff66cc;
-
-  animation: neonGlow 2s infinite alternate;
-}
-
-/* Animación neón rosa pastel */
-@keyframes neonGlow {
-  from {
-    text-shadow:
-      0 0 5px #ffffff,
-      0 0 15px #ffd6f6,
-      0 0 30px #ffb3ec,
-      0 0 50px #ff94e6,
-      0 0 90px #ff66cc;
-  }
-  to {
-    text-shadow:
-      0 0 10px #ffffff,
-      0 0 25px #ffc2f0,
-      0 0 45px #ff99e6,
-      0 0 70px #ff66cc,
-      0 0 120px #ff33cc;
-  }
-}
-
-/* Brillitos animados */
-.title::after {
-  content: " ✨ ✧ ✦ ✨";
-  font-size: 22px;
-  margin-left: 10px;
-  animation: sparkle 1.5s infinite alternate;
-}
-
-@keyframes sparkle {
-  from { opacity: 0.5; transform: translateY(0px); }
-  to { opacity: 1; transform: translateY(-5px); }
-}
-
-
-
-/* ===== NUBE 3D ROSA PASTEL ===== */
+/* ================= REPRODUCTOR NUBE ================= */
 
 .cloud-player{
 position:absolute;
-top:20px;
-right:20px;
-width:360px;
-height:260px;
-display:flex;
-align-items:center;
-justify-content:center;
+top:150px;
+left:50px;
+width:350px;
+z-index:10;
 }
 
-/* Forma base nube */
 .cloud-shape{
 position:absolute;
 width:100%;
 height:200px;
 background:linear-gradient(145deg,#ffd6f6,#ffb3ec);
-border-radius:100px;
+border-radius:120px;
 box-shadow:
-inset -15px -15px 30px #ff9de2,
-inset 15px 15px 30px #ffeaff,
-0 20px 40px rgba(255,150,220,0.5);
-}
-
-/* Burbujas para forma real de nube */
-.cloud-shape::before,
-.cloud-shape::after{
-content:"";
-position:absolute;
-background:linear-gradient(145deg,#ffd6f6,#ffb3ec);
-border-radius:50%;
-box-shadow:
+0 20px 50px rgba(255,150,220,0.5),
 inset -10px -10px 20px #ff9de2,
-inset 10px 10px 20px #ffeaff;
+inset 10px 10px 20px #fff;
 }
 
-.cloud-shape::before{
-width:120px;
-height:120px;
-top:-60px;
-left:40px;
-}
-
-.cloud-shape::after{
-width:150px;
-height:150px;
-top:-80px;
-right:40px;
-}
-
-/* Contenido interno */
 .player-content{
 position:relative;
-z-index:2;
+padding:30px;
 text-align:center;
-padding:20px;
-width:90%;
 }
 
-/* Brillos mágicos */
-.sparkle{
-position:absolute;
-width:8px;
-height:8px;
-background:white;
-border-radius:50%;
-opacity:0;
-animation:twinkle 3s infinite;
-}
-
-@keyframes twinkle{
-0%{opacity:0; transform:scale(0.5);}
-50%{opacity:1; transform:scale(1.2);}
-100%{opacity:0; transform:scale(0.5);}
-}
-
-/* Inputs kawaii */
-.cloud-player input{
+.player-content input{
 width:100%;
 border:none;
-border-radius:20px;
 padding:8px;
-background:#ffe6fa;
-margin-bottom:8px;
-outline:none;
-box-shadow:inset 0 0 10px #ffb3ec;
+border-radius:20px;
+margin-bottom:10px;
 }
 
-/* Botones pastel */
-.cloud-player button{
+.player-content button{
 border:none;
-border-radius:25px;
-padding:8px 18px;
-background:linear-gradient(90deg,#ff8ad6,#ffb3ec);
+padding:8px 15px;
+border-radius:20px;
+background:#ff66cc;
 color:white;
 cursor:pointer;
-transition:0.3s;
-box-shadow:0 5px 15px rgba(255,150,220,0.4);
 }
 
-.cloud-player button:hover{
-transform:scale(1.1);
-background:linear-gradient(90deg,#ffb3ec,#ff8ad6);
-}
-
-/* Visualizador suave */
 .visualizer{
-height:15px;
-margin:10px 0;
-background:linear-gradient(90deg,#ff8ad6,#ffd6f6);
+height:10px;
+background:linear-gradient(90deg,#ff66cc,#ffd6f6);
+margin-top:10px;
 border-radius:20px;
-animation:pulse 1.5s infinite alternate;
+animation:pulse 1s infinite alternate;
 }
 
 @keyframes pulse{
 from{opacity:0.5;}
 to{opacity:1;}
+}
+
+/* ================= CHAT IA ================= */
+
+.ai-chat{
+position:absolute;
+right:40px;
+top:180px;
+width:320px;
+height:450px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+border-radius:25px;
+box-shadow:0 0 40px rgba(255,0,200,0.5);
+display:flex;
+flex-direction:column;
+z-index:10;
+}
+
+.chat-header{
+padding:15px;
+text-align:center;
+font-weight:bold;
+background:linear-gradient(90deg,#ff66cc,#ffb3ec);
+border-radius:25px 25px 0 0;
+}
+
+.chat-body{
+flex:1;
+padding:15px;
+overflow-y:auto;
+}
+
+.msg{
+padding:8px 12px;
+margin-bottom:8px;
+border-radius:15px;
+}
+
+.user{
+background:#ff66cc;
+align-self:flex-end;
+}
+
+.ai{
+background:#ffd6f6;
+color:black;
+}
+
+.chat-input{
+display:flex;
+padding:10px;
+}
+
+.chat-input input{
+flex:1;
+border:none;
+border-radius:15px;
+padding:8px;
+}
+
+.chat-input button{
+margin-left:5px;
+border:none;
+border-radius:15px;
+padding:8px;
+background:#ff66cc;
+color:white;
+}
+
+/* ================= TAMAGOTCHI ================= */
+
+.tamagotchi{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+z-index:10;
+}
+
+.pet-screen{
+width:180px;
+height:150px;
+background:#222;
+border:8px solid #ff66cc;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 0 30px #ff66cc;
+}
+
+.pet{
+width:40px;
+height:40px;
+background:#ff66cc;
+image-rendering:pixelated;
+}
+
+.pet-controls{
+display:flex;
+justify-content:center;
+margin-top:10px;
+gap:10px;
+}
+
+.pet-controls button{
+border:none;
+border-radius:50%;
+width:40px;
+height:40px;
+background:#ffb3ec;
+cursor:pointer;
 }
