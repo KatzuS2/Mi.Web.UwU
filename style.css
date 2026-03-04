@@ -1,4 +1,21 @@
 
+/** fondo de burbujas**/ 
+.bubble-bg{
+position:absolute;
+bottom:-100px;
+border-radius:50%;
+opacity:0.6;
+animation: floatUp linear infinite;
+}
+
+@keyframes floatUp{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-110vh);
+}
+}
 /*titulo de uwu**/
 
 /* TITULO */
