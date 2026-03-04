@@ -1,62 +1,120 @@
+/* ===== NUBE 3D ROSA PASTEL ===== */
+
 .cloud-player{
 position:absolute;
 top:20px;
 right:20px;
-width:320px;
+width:360px;
 height:260px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
+/* Forma base nube */
 .cloud-shape{
 position:absolute;
 width:100%;
-height:100%;
-background:rgba(255,255,255,0.6);
-border-radius:50px;
+height:200px;
+background:linear-gradient(145deg,#ffd6f6,#ffb3ec);
+border-radius:100px;
 box-shadow:
-0 0 40px #aee7ff,
-inset 0 0 40px white;
-backdrop-filter: blur(15px);
+inset -15px -15px 30px #ff9de2,
+inset 15px 15px 30px #ffeaff,
+0 20px 40px rgba(255,150,220,0.5);
 }
 
+/* Burbujas para forma real de nube */
+.cloud-shape::before,
+.cloud-shape::after{
+content:"";
+position:absolute;
+background:linear-gradient(145deg,#ffd6f6,#ffb3ec);
+border-radius:50%;
+box-shadow:
+inset -10px -10px 20px #ff9de2,
+inset 10px 10px 20px #ffeaff;
+}
+
+.cloud-shape::before{
+width:120px;
+height:120px;
+top:-60px;
+left:40px;
+}
+
+.cloud-shape::after{
+width:150px;
+height:150px;
+top:-80px;
+right:40px;
+}
+
+/* Contenido interno */
 .player-content{
 position:relative;
-padding:20px;
 z-index:2;
+text-align:center;
+padding:20px;
+width:90%;
 }
 
-input{
+/* Brillos mágicos */
+.sparkle{
+position:absolute;
+width:8px;
+height:8px;
+background:white;
+border-radius:50%;
+opacity:0;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%{opacity:0; transform:scale(0.5);}
+50%{opacity:1; transform:scale(1.2);}
+100%{opacity:0; transform:scale(0.5);}
+}
+
+/* Inputs kawaii */
+.cloud-player input{
 width:100%;
 border:none;
 border-radius:20px;
-padding:5px;
+padding:8px;
 background:#ffe6fa;
-margin-bottom:5px;
+margin-bottom:8px;
+outline:none;
+box-shadow:inset 0 0 10px #ffb3ec;
 }
 
-button{
+/* Botones pastel */
+.cloud-player button{
 border:none;
-border-radius:20px;
-padding:5px 15px;
-background:#ff8ad6;
+border-radius:25px;
+padding:8px 18px;
+background:linear-gradient(90deg,#ff8ad6,#ffb3ec);
 color:white;
 cursor:pointer;
 transition:0.3s;
+box-shadow:0 5px 15px rgba(255,150,220,0.4);
 }
 
-button:hover{
-background:#8ad6ff;
+.cloud-player button:hover{
 transform:scale(1.1);
+background:linear-gradient(90deg,#ffb3ec,#ff8ad6);
 }
 
+/* Visualizador suave */
 .visualizer{
-height:20px;
+height:15px;
 margin:10px 0;
-background:linear-gradient(90deg,#ff8ad6,#8ad6ff);
-animation:pulse 1s infinite alternate;
-border-radius:10px;
+background:linear-gradient(90deg,#ff8ad6,#ffd6f6);
+border-radius:20px;
+animation:pulse 1.5s infinite alternate;
 }
 
 @keyframes pulse{
-from{opacity:0.4;}
+from{opacity:0.5;}
 to{opacity:1;}
 }
