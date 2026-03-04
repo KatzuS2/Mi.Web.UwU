@@ -8,10 +8,9 @@
 </head>
 <body>
 
-<!-- Canvas de partículas -->
 <canvas id="bgCanvas"></canvas>
 
-<!-- Barra reproductor neon -->
+<!-- Reproductor barra neon -->
 <div class="music-bar">
   <input type="text" id="audioURL" placeholder="URL MP3 🎵">
   <button onclick="loadAudio()">Cargar</button>
@@ -26,11 +25,12 @@
   <audio id="audio"></audio>
 </div>
 
-<!-- Título neon -->
+<!-- Título neon centrado -->
 <h1 class="title">UwU 💖</h1>
 
 <!-- Layout principal -->
 <div class="layout">
+
   <!-- Chat AI -->
   <div class="ai-chat">
     <div class="chat-header">🌸 AI Assistant</div>
@@ -46,15 +46,12 @@
     <div class="pet" id="pet"></div>
   </div>
 
-  <!-- Horóscopo mini widget -->
+  <!-- Horóscopo -->
   <div class="horoscope">
-    <div class="horoscope-header">🪐 Horóscopo</div>
-    <div class="horoscope-body" id="horoscopeBody">Aries ♈</div>
-    <div class="horoscope-controls">
-      <button onclick="prevSign()">◀️</button>
-      <button onclick="nextSign()">▶️</button>
-    </div>
+    <div class="horoscope-header">🪐 Horóscopos</div>
+    <div class="horoscope-body" id="horoscopeBody"></div>
   </div>
+
 </div>
 
 <script src="script.js"></script>
