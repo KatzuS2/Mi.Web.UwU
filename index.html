@@ -2,55 +2,62 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyber UwU Interface</title>
+    <title>Cyberfox UwU - God Mode</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="main-bg">
-        <div class="uwu-wrapper">
-            <span class="uwu-text">UwU</span>
+    <div class="glass-bg">
+        <div class="uwu-glow">
+            <span class="text-uwu">UwU</span>
             <div class="heart-neon"></div>
+            <div class="stars-bg"></div>
         </div>
     </div>
 
-    <div id="pet" class="cyber-fox">
-        <div class="fox-ears">
-            <div class="ear-l"></div>
-            <div class="ear-r"></div>
-        </div>
-        <div class="fox-face">
-            <div class="eyes-container">
-                <div class="eye"></div>
-                <div class="eye"></div>
+    <header class="top-player">
+        <div class="player-content">
+            <div class="song-info">
+                <span class="main-title">NEON DREAMS</span>
+                <span class="sub-title">KAWAII ★ STARS</span>
             </div>
+            <div class="audio-visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+            <div class="main-controls">
+                <button class="btn-step">⏮</button>
+                <button id="playBtn" class="btn-play">▶</button>
+                <button class="btn-step">⏭</button>
+            </div>
+            <div class="extra-info">
+                <div class="badge-radio">📡 RADIO</div>
+                <div id="clock" class="digital-clock">10:23 AM</div>
+            </div>
+        </div>
+    </header>
+
+    <div id="pet" class="cyber-pet">
+        <div class="ears">
+            <div class="ear-l"></div><div class="ear-r"></div>
+        </div>
+        <div class="face">
+            <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
             <div class="blush"></div>
         </div>
-        <div class="fox-tail"></div>
     </div>
 
-    <div class="neon-player">
-        <div class="p-section info">
-            <div class="mini-avatar"></div>
-            <div class="track-data">
-                <div class="txt-main">NEON DREAMS</div>
-                <div class="txt-sub">KAWAII ★ STARS</div>
-            </div>
-        </div>
-        <div class="p-section waves">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-        <div class="p-section controls">
-            <button class="nav-btn">⏮</button>
-            <button id="playBtn" class="main-play">▶</button>
-            <button class="nav-btn">⏭</button>
-        </div>
-        <div class="p-section extra">
-            <div class="radio-badge">📡 RADIO</div>
-            <div class="clock" id="clock">--:-- --</div>
+    <div class="ai-chat-box">
+        <div class="chat-header">IA DE CYBERFOX UWU</div>
+        <div id="chatDisplay" class="chat-display"></div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Busca en Wikipedia..." onkeypress="if(event.key==='Enter') sendToIA()">
+            <button onclick="sendToIA()">SEND</button>
         </div>
     </div>
+
+    <footer class="tech-footer">
+        <div class="marquee" id="marquee"></div>
+    </footer>
 
     <script src="script.js"></script>
     <script src="pet.js"></script>
