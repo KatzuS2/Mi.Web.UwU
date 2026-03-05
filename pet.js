@@ -1,67 +1,68 @@
-// Configuración de la mascota (Zorrito Ciber-Kawaii)
-const petEl = document.getElementById('pet');
+const pet = document.getElementById('pet');
 
-// Variables de movimiento
+// Configuración de movimiento
 let posX = window.innerWidth / 2;
 let posY = window.innerHeight / 2;
-let velX = 1.8;
-let velY = 1.2;
-let zorroDir = 1;
+let targetX = posX;
+let targetY = posY;
+let vel = 0.02; // Velocidad de desplazamiento suave
 
-// Estados de ánimo para el chat
-const petMoods = {
-    happy: "¡Miau! Estoy muy feliz hoy. (◕ᴥ◕) ✨",
-    hungry: "Mis circuitos tienen hambre... ¿me das unos bits? 🔋",
-    excited: "¡Wiii! ¡Me encanta moverme por tu pantalla! 🚀",
-    sleepy: "Zzz... el modo ahorro de energía me llama. 😴"
-};
+function updatePetPosition() {
+    // Suavizado de movimiento (Lerp)
+    posX += (targetX - posX) * vel;
+    posY += (targetY - posY) * vel;
 
-function animatePet() {
-    // Actualizar posición
-    posX += velX;
-    posY += velY;
+    pet.style.left = `${posX}px`;
+    pet.style.top = `${posY}px`;
 
-    // Rebote en los bordes de la pantalla
-    if (posX <= 0 || posX >= window.innerWidth - 90) {
-        velX *= -1;
-        zorroDir *= -1; // Voltear hacia donde camina
-    }
-    if (posY <= 80 || posY >= window.innerHeight - 90) { // Margen para el reproductor y marquesina
-        velY *= -1;
+    // Girar el zorrito según la dirección a la que va
+    if (Math.abs(targetX - posX) > 1) {
+        pet.style.transform = targetX > posX ? 'scaleX(-1)' : 'scaleX(1)';
     }
 
-    // Aplicar estilos de posición y dirección
-    petEl.style.left = posX + 'px';
-    petEl.style.top = posY + 'px';
-    petEl.style.transform = `scaleX(${zorroDir})`;
-
-    // Parpadeo aleatorio (basado en image_1.png/image_3.png)
-    if (Math.random() < 0.008) {
-        petEl.classList.add('blinking');
-        setTimeout(() => petEl.classList.remove('blinking'), 150);
+    // Si llegó cerca del destino, buscar uno nuevo
+    if (Math.abs(targetX - posX) < 5 && Math.abs(targetY - posY) < 5) {
+        setNewTarget();
     }
 
-    // Comentario aleatorio en el chat de vez en cuando
-    if (Math.random() < 0.0005) {
-        const randomMood = Object.values(petMoods)[Math.floor(Math.random() * 4)];
-        appendMessage(randomMood, 'ai');
-    }
-
-    requestAnimationFrame(animatePet);
+    requestAnimationFrame(updatePetPosition);
 }
 
-// Iniciar animación al cargar
-animatePet();
-
-// Interacción: Clic para "alimentar" o jugar
-petEl.onclick = () => {
-    velX *= 1.5;
-    velY *= 1.5;
-    appendMessage("¡Eso hace cosquillas! ¡Mira qué rápido voy! 💖", "ai");
+function setNewTarget() {
+    // Definir límites para que no se salga ni tape el reproductor (bottom: 75px)
+    const margin = 100;
+    targetX = Math.random() * (window.innerWidth - margin);
+    targetY = Math.random() * (window.innerHeight - margin - 150) + 50;
     
-    // Volver a velocidad normal después de un momento
+    // Tiempo de espera aleatorio antes de volver a caminar
+    vel = 0; 
     setTimeout(() => {
-        velX /= 1.5;
-        velY /= 1.5;
-    }, 2000);
-};
+        vel = 0.02;
+    }, Math.random() * 3000 + 2000);
+}
+
+// Interacción: Al hacer clic, el zorrito se emociona
+pet.addEventListener('click', () => {
+    // Efecto visual de emoción (brillo neón intenso)
+    pet.style.boxShadow = "0 0 40px #ff33cc, inset 0 0 20px #ff33cc";
+    
+    // Si tienes la función de chat, el zorrito responde
+    if (typeof appendMessage === 'function') {
+        const frases = [
+            "¡Bip-bup! Me gustan tus clics. (◕ᴥ◕)",
+            "¡Energía al 100%! 🔋✨",
+            "¿Estamos escuchando Neon Dreams? 🎶",
+            "¡Miau! Digo... ¡Protocolo de felicidad activado!"
+        ];
+        const randomFrase = frases[Math.floor(Math.random() * frases.length)];
+        appendMessage(randomFrase, "ai");
+    }
+
+    setTimeout(() => {
+        pet.style.boxShadow = "0 0 15px #33ccff";
+    }, 1000);
+});
+
+// Iniciar el ciclo de vida del zorrito
+setNewTarget();
+updatePetPosition();
