@@ -1,37 +1,23 @@
-const pet = document.getElementById('pet');
-const clock = document.getElementById('clock');
-
-// 1. Caminata del Zorrito por la pantalla
-function walk() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 200) + 100;
-    
-    pet.style.left = `${x}px`;
-    pet.style.top = `${y}px`;
-    
-    // Girar según dirección
-    const currentX = parseFloat(pet.style.left);
-    pet.style.transform = x > currentX ? 'scaleX(-1)' : 'scaleX(1)';
-    
-    setTimeout(walk, Math.random() * 4000 + 3000);
+// Actualización del reloj en tiempo real
+function startClock() {
+    const clockElement = document.getElementById('clock');
+    setInterval(() => {
+        const now = new Date();
+        clockElement.innerText = now.toLocaleTimeString('en-US', { 
+            hour: '2-digit', minute: '2-digit', hour12: true 
+        });
+    }, 1000);
 }
 
-// 2. Reloj funcional del reproductor (Exacto image_4.png)
-function updateClock() {
-    const now = new Date();
-    clock.innerText = now.toLocaleTimeString('en-US', { 
-        hour: '2-digit', minute: '2-digit', hour12: true 
-    });
-}
+// Lógica básica del botón Play
+const playBtn = document.getElementById('playBtn');
+let isPlaying = false;
 
-// 3. Interacción con el Chat (Integración de personalidad)
-pet.onclick = () => {
-    pet.style.boxShadow = "0 0 30px #ff33cc";
-    setTimeout(() => pet.style.boxShadow = "0 0 15px #33ccff", 500);
-    console.log("¡El zorrito te saluda! (◕ᴥ◕)");
-};
+playBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playBtn.innerText = isPlaying ? "⏸" : "▶";
+    playBtn.style.boxShadow = isPlaying ? "0 0 25px #ff33cc" : "0 0 12px #ff33cc";
+});
 
-// Iniciar funciones
-walk();
-updateClock();
-setInterval(updateClock, 1000);
+// Inicializar funciones
+document.addEventListener('DOMContentLoaded', startClock);
