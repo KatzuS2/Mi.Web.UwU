@@ -1,23 +1,36 @@
-// Actualización del reloj en tiempo real
-function startClock() {
-    const clockElement = document.getElementById('clock');
-    setInterval(() => {
-        const now = new Date();
-        clockElement.innerText = now.toLocaleTimeString('en-US', { 
-            hour: '2-digit', minute: '2-digit', hour12: true 
-        });
-    }, 1000);
-}
-
-// Lógica básica del botón Play
-const playBtn = document.getElementById('playBtn');
-let isPlaying = false;
-
-playBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
-    playBtn.innerText = isPlaying ? "⏸" : "▶";
-    playBtn.style.boxShadow = isPlaying ? "0 0 25px #ff33cc" : "0 0 12px #ff33cc";
+// Partículas de 0 y 1 al mover el mouse
+document.addEventListener('mousemove', (e) => {
+    const p = document.createElement('span');
+    p.className = 'particle';
+    p.innerText = Math.round(Math.random());
+    p.style.left = e.pageX + 'px';
+    p.style.top = e.pageY + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1000);
 });
 
-// Inicializar funciones
-document.addEventListener('DOMContentLoaded', startClock);
+// IA de Cyberfox con Wikipedia
+async function sendToIA() {
+    const input = document.getElementById('userInput');
+    const display = document.getElementById('chatDisplay');
+    const query = input.value.trim();
+    if(!query) return;
+
+    display.innerHTML += `<div>> ${query}</div>`;
+    input.value = '';
+
+    try {
+        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+        const data = await res.json();
+        const responseText = data.extract || "¡Miau! No encontré eso en mis circuitos de Wikipedia.";
+        display.innerHTML += `<div style="color:var(--blue)">Cyberfox: ${responseText}</div>`;
+    } catch {
+        display.innerHTML += `<div>Error de conexión...</div>`;
+    }
+    display.scrollTop = display.scrollHeight;
+}
+
+// Reloj
+setInterval(() => {
+    document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+}, 1000);
