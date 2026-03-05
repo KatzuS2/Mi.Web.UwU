@@ -1,68 +1,33 @@
 const pet = document.getElementById('pet');
+let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+let x = tx, y = ty;
 
-// Configuración de movimiento
-let posX = window.innerWidth / 2;
-let posY = window.innerHeight / 2;
-let targetX = posX;
-let targetY = posY;
-let vel = 0.02; // Velocidad de desplazamiento suave
+function updatePet() {
+    // Movimiento fluido (Lerp)
+    x += (tx - x) * 0.025;
+    y += (ty - y) * 0.025;
+    
+    pet.style.left = `${x}px`;
+    pet.style.top = `${y}px`;
 
-function updatePetPosition() {
-    // Suavizado de movimiento (Lerp)
-    posX += (targetX - posX) * vel;
-    posY += (targetY - posY) * vel;
+    // Orientación visual según destino
+    pet.style.transform = tx > x ? 'scaleX(-1)' : 'scaleX(1)';
 
-    pet.style.left = `${posX}px`;
-    pet.style.top = `${posY}px`;
-
-    // Girar el zorrito según la dirección a la que va
-    if (Math.abs(targetX - posX) > 1) {
-        pet.style.transform = targetX > posX ? 'scaleX(-1)' : 'scaleX(1)';
+    // Buscar nuevo destino al llegar
+    if (Math.abs(tx - x) < 8 && Math.abs(ty - y) < 8) {
+        setTimeout(() => {
+            tx = Math.random() * (window.innerWidth - 110);
+            ty = Math.random() * (window.innerHeight - 200) + 60;
+        }, Math.random() * 3500 + 1500);
     }
-
-    // Si llegó cerca del destino, buscar uno nuevo
-    if (Math.abs(targetX - posX) < 5 && Math.abs(targetY - posY) < 5) {
-        setNewTarget();
-    }
-
-    requestAnimationFrame(updatePetPosition);
+    requestAnimationFrame(updatePet);
 }
 
-function setNewTarget() {
-    // Definir límites para que no se salga ni tape el reproductor (bottom: 75px)
-    const margin = 100;
-    targetX = Math.random() * (window.innerWidth - margin);
-    targetY = Math.random() * (window.innerHeight - margin - 150) + 50;
-    
-    // Tiempo de espera aleatorio antes de volver a caminar
-    vel = 0; 
-    setTimeout(() => {
-        vel = 0.02;
-    }, Math.random() * 3000 + 2000);
-}
+// Interacción táctil
+pet.onclick = () => {
+    pet.style.filter = "brightness(1.5)";
+    console.log("¡Zorrito activado! (◕ᴥ◕)");
+    setTimeout(() => pet.style.filter = "brightness(1)", 600);
+};
 
-// Interacción: Al hacer clic, el zorrito se emociona
-pet.addEventListener('click', () => {
-    // Efecto visual de emoción (brillo neón intenso)
-    pet.style.boxShadow = "0 0 40px #ff33cc, inset 0 0 20px #ff33cc";
-    
-    // Si tienes la función de chat, el zorrito responde
-    if (typeof appendMessage === 'function') {
-        const frases = [
-            "¡Bip-bup! Me gustan tus clics. (◕ᴥ◕)",
-            "¡Energía al 100%! 🔋✨",
-            "¿Estamos escuchando Neon Dreams? 🎶",
-            "¡Miau! Digo... ¡Protocolo de felicidad activado!"
-        ];
-        const randomFrase = frases[Math.floor(Math.random() * frases.length)];
-        appendMessage(randomFrase, "ai");
-    }
-
-    setTimeout(() => {
-        pet.style.boxShadow = "0 0 15px #33ccff";
-    }, 1000);
-});
-
-// Iniciar el ciclo de vida del zorrito
-setNewTarget();
-updatePetPosition();
+updatePet();
