@@ -1,38 +1,96 @@
-
-/* Base y Prevención de Zoom */
-body, html { margin:0; padding:0; overflow:hidden; font-family: sans-serif; background:#05000a; color:white; width: 100%; height: 100%; position: fixed; }
-
-/* Reproductor Estilo image_2.png */
-.music-bar-pro {
-    position:fixed; top:0; width:100%; height:70px; display:flex; align-items:center;
-    background: rgba(10, 0, 20, 0.9); border-bottom: 2px solid #33ccff; z-index:100;
-    box-shadow: 0 0 20px #33ccff; padding: 0 20px; box-sizing: border-box; justify-content: space-between;
+:root {
+    --neon-pink: #ff33cc;
+    --neon-blue: #33ccff;
+    --fox-purple: #5a32a8;
 }
-.main-title { color: #ff33cc; font-weight: bold; font-size: 1.2em; text-shadow: 0 0 10px #ff33cc; }
-.play-main { background: none; border: 2px solid #33ccff; color: #33ccff; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; box-shadow: 0 0 10px #33ccff; }
 
-/* BARRA DE PROGRESO RELLENA NEÓN */
-.time-box { display: flex; align-items: center; gap: 10px; min-width: 250px; }
-#progressBar { flex:1; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; border: 1px solid #ff33cc; overflow: hidden; }
-#progress { width:0%; height:100%; background: #ff33cc; box-shadow: 0 0 15px #ff33cc; transition: 0.1s; }
-
-/* ZORRITO VIOLETA CON OREJAS (image_1.png / image_3.png) */
-.cyber-zorro {
-    position: fixed; width: 85px; height: 85px; z-index: 9999;
-    background: #5a32a8; border: 3px solid #33ccff; border-radius: 20px 20px 40px 40px;
-    display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px #33ccff;
+body {
+    background: #05000a;
+    margin: 0; overflow: hidden;
+    font-family: 'Courier New', monospace;
 }
-.cyber-zorro::before, .cyber-zorro::after { /* Ojos */
-    content: ''; position: absolute; top: 32px; width: 14px; height: 20px; background: #000; border-radius: 50%; box-shadow: 0 0 5px #fff;
+
+/* --- FONDO Y CORAZÓN LATIENDO (image_5.png) --- */
+.main-bg {
+    position: fixed; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    z-index: -1;
 }
-.cyber-zorro::before { left: 18px; } .cyber-zorro::after { right: 18px; }
-.ears { position: absolute; top: -22px; width: 100%; display: flex; justify-content: space-between; padding: 0 8px; }
-.ear { width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 28px solid #5a32a8; }
-.blinking::before, .blinking::after { height: 2px !important; top: 40px !important; }
 
-/* Marquesina Hacker */
-.hacker-marquee { position: fixed; bottom: 0; width: 100%; height: 40px; background: black; border-top: 2px solid #33ccff; overflow: hidden; display: flex; align-items: center; }
-.marquee-content span { color: #33ccff; margin-right: 50px; font-weight: bold; text-shadow: 0 0 10px #33ccff; }
+.uwu-text {
+    font-size: 100px; color: var(--neon-pink); font-weight: bold;
+    text-shadow: 0 0 20px var(--neon-pink), 0 0 50px rgba(255, 51, 204, 0.5);
+}
 
-/* El UwU Original */
-.title { position:fixed; top:35%; width:100%; text-align:center; font-size:100px; color:#ff33cc; text-shadow: 0 0 20px #ff33cc; pointer-events:none; }
+.heart-neon {
+    display: inline-block; width: 60px; height: 60px;
+    background: var(--neon-pink); position: relative;
+    transform: rotate(-45deg); margin-left: 30px;
+    box-shadow: 0 0 30px var(--neon-pink);
+    animation: heartBeat 1.2s infinite ease-in-out;
+}
+.heart-neon::before, .heart-neon::after {
+    content: ""; width: 60px; height: 60px; background: var(--neon-pink);
+    border-radius: 50%; position: absolute;
+}
+.heart-neon::before { top: -30px; left: 0; }
+.heart-neon::after { left: 30px; top: 0; }
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.15) rotate(-45deg); }
+}
+
+/* --- ZORRITO ROBOT CSS (image_6.png) --- */
+.cyber-fox {
+    position: fixed; width: 90px; height: 85px;
+    background: var(--fox-purple); border-radius: 25px 25px 45px 45px;
+    border: 2px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue);
+    z-index: 100; transition: all 0.5s ease;
+}
+
+.ear-l, .ear-r {
+    position: absolute; top: -25px; width: 0; height: 0;
+    border-left: 18px solid transparent; border-right: 18px solid transparent;
+    border-bottom: 30px solid var(--fox-purple);
+}
+.ear-l { left: 10px; transform: rotate(-15deg); }
+.ear-r { right: 10px; transform: rotate(15deg); }
+
+.eyes-container { display: flex; gap: 20px; margin-top: 30px; justify-content: center; }
+.eye {
+    width: 14px; height: 22px; background: #000; border-radius: 50%;
+    box-shadow: 0 0 5px #fff; animation: foxBlink 4s infinite;
+}
+
+@keyframes foxBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+}
+
+/* --- REPRODUCTOR NEÓN PRO (image_4.png) --- */
+.neon-player {
+    position: fixed; bottom: 0; width: 100%; height: 75px;
+    background: rgba(0, 0, 0, 0.9); border-top: 2px solid var(--neon-blue);
+    display: flex; align-items: center; justify-content: space-around;
+    box-shadow: 0 -5px 20px rgba(51, 204, 255, 0.3); z-index: 200;
+}
+
+.txt-main { color: var(--neon-pink); font-weight: bold; font-size: 14px; text-shadow: 0 0 5px var(--neon-pink); }
+.txt-sub { color: var(--neon-blue); font-size: 10px; }
+
+.play-btn {
+    width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--neon-pink);
+    background: transparent; color: var(--neon-pink); cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-pink); font-size: 20px;
+}
+
+/* Ondas animadas */
+.audio-waves { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+.wave { width: 3px; height: 10px; background: var(--neon-blue); animation: waveRise 0.5s infinite alternate; }
+.wave:nth-child(2) { animation-delay: 0.2s; }
+.wave:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes waveRise { from { height: 5px; } to { height: 20px; } }
+
+.radio-tag { border: 1px solid var(--neon-blue); padding: 4px 10px; border-radius: 5px; color: var(--neon-blue); font-size: 12px; }
