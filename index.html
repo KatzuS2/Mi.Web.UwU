@@ -1,60 +1,63 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyberpunk UwU v.5.0</title>
+    <title>Cyberpunk UwU v.6.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <canvas id="bgCanvas"></canvas>
 
-<div class="music-bar">
-  <div class="input-wrapper">
-    <input type="text" id="audioURL" placeholder="Busca canción o pega link... 📡">
-    <button class="glow-btn" onclick="loadAudio()">CARGAR</button>
+<div class="music-bar-pro">
+  <div class="player-left">
+    <div class="track-info">
+      <div class="main-title">NEON DREAMS</div>
+      <div class="sub-title">KAWAII ★ STARS</div>
+    </div>
   </div>
   
-  <div class="media-controls">
-    <button id="playBtn" class="icon-btn">▶</button>
-    <button id="pauseBtn" class="icon-btn">⏸</button>
+  <div class="player-center">
+    <button class="nav-btn">⏮</button>
+    <button id="playBtn" class="play-main">▶</button>
+    <button id="pauseBtn" class="play-main" style="display:none;">⏸</button>
+    <button class="nav-btn">⏭</button>
   </div>
-
-  <div class="radio-section">
+  
+  <div class="player-right">
     <select id="radioSelect" onchange="changeRadio()">
-      <option value="">📻 ANIME RADIO (Live)</option>
+      <option value="">📻 RADIO ANIME</option>
       <option value="https://stream.zeno.fm/7q8hn6vt9mruv">Anime Hits</option>
-      <option value="https://ais-sa2.cdnstream1.com/2447_128.mp3">Lofi Focus</option>
     </select>
-  </div>
-
-  <div class="time-container">
-    <span id="currentTime">00:00</span>
-    <div id="progressBar"><div id="progress"></div></div>
-    <span id="timeLeft">-00:00</span>
+    <div class="time-box">
+      <span id="currentTime">00:00</span>
+      <div id="progressBar"><div id="progress"></div></div>
+      <span id="timeLeft">-00:00</span>
+    </div>
   </div>
 </div>
 
-<div class="uwu-container">
-    <h1 class="title">UwU 💖</h1>
+<div class="search-section">
+  <input type="text" id="audioURL" placeholder="Busca tu música aquí... 🔍">
+  <button onclick="loadAudio()">CARGAR</button>
 </div>
+
+<h1 class="title">UwU 💖</h1>
 
 <div class="ai-chat">
-    <div class="chat-header">🌸 NEURAL INTERFACE (Habla con tu Mascota)</div>
+    <div class="chat-header">🌸 NEURAL LINK (Habla con el Zorro)</div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Pregúntale algo a la IA o al Zorro..." onkeypress="handleKeyPress(event)">
+      <input type="text" id="userInput" placeholder="Pregúntale algo al zorrito..." onkeypress="handleKeyPress(event)">
       <button onclick="sendMessage()">ENVIAR</button>
     </div>
 </div>
 
 <div class="hacker-marquee">
-    <div class="marquee-content">
-        <span>⚡ JS</span> <span>🌐 HTML5</span> <span>🎨 CSS3</span> <span>🐍 PYTHON</span> <span>💎 RUBY</span> 
-        <span>🔗 API</span> <span>🛸 REACT</span> <span>💀 ROOT</span> <span>📡 SIGNAL</span> <span>🔋 KERNEL</span>
-        <span>⚡ JS</span> <span>🌐 HTML5</span> <span>🎨 CSS3</span> <span>🐍 PYTHON</span> <span>💎 RUBY</span>
-    </div>
+    <div class="marquee-content" id="techTrack">
+        </div>
 </div>
 
 <script src="script.js"></script>
