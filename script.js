@@ -1,61 +1,37 @@
+const pet = document.getElementById('pet');
+const clock = document.getElementById('clock');
 
-const audio = new Audio();
-const progress = document.getElementById('progress');
-const currentTimeText = document.getElementById('currentTime');
-const timeLeftText = document.getElementById('timeLeft');
+// 1. Caminata del Zorrito por la pantalla
+function walk() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 200) + 100;
+    
+    pet.style.left = `${x}px`;
+    pet.style.top = `${y}px`;
+    
+    // Girar según dirección
+    const currentX = parseFloat(pet.style.left);
+    pet.style.transform = x > currentX ? 'scaleX(-1)' : 'scaleX(1)';
+    
+    setTimeout(walk, Math.random() * 4000 + 3000);
+}
 
-// Enviar mensaje con Enter
-function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+// 2. Reloj funcional del reproductor (Exacto image_4.png)
+function updateClock() {
+    const now = new Date();
+    clock.innerText = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', minute: '2-digit', hour12: true 
+    });
+}
 
-// Lógica de Tiempo y Barra
-audio.ontimeupdate = () => {
-    if(audio.duration) {
-        const p = (audio.currentTime / audio.duration) * 100;
-        progress.style.width = p + '%';
-        currentTimeText.innerText = formatTime(audio.currentTime);
-        timeLeftText.innerText = "-" + formatTime(audio.duration - audio.currentTime);
-    }
+// 3. Interacción con el Chat (Integración de personalidad)
+pet.onclick = () => {
+    pet.style.boxShadow = "0 0 30px #ff33cc";
+    setTimeout(() => pet.style.boxShadow = "0 0 15px #33ccff", 500);
+    console.log("¡El zorrito te saluda! (◕ᴥ◕)");
 };
 
-function formatTime(s) {
-    let m = Math.floor(s / 60), seg = Math.floor(s % 60);
-    return `${m}:${seg < 10 ? '0'+seg : seg}`;
-}
-
-// Chat e Interacción con Mascota
-async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const msg = input.value.trim().toLowerCase();
-    if(!msg) return;
-    
-    appendMessage(input.value, 'user');
-    input.value = '';
-
-    if(msg.includes('como estas') || msg.includes('comiste')) {
-        setTimeout(() => appendMessage("¡Miau! Estoy genial, mis circuitos están llenos de energía. (◕ᴥ◕)", "ai"), 600);
-    } else {
-        // Búsqueda simple en Wikipedia
-        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(msg)}`);
-        const data = await res.json();
-        appendMessage(data.extract || "No sé eso, pero mi colita dice que es interesante.", "ai");
-    }
-}
-
-function appendMessage(txt, cls) {
-    const body = document.getElementById('chatBody');
-    const d = document.createElement('div');
-    d.className = `msg ${cls}`;
-    d.innerText = txt;
-    body.appendChild(d);
-    body.scrollTop = body.scrollHeight;
-}
-
-// Llenar Marquesina Hacker
-const techs = ['⚡ JS', '🌐 HTML5', '🎨 CSS3', '🐍 PYTHON', '💀 HACK', '🛰️ SIGNAL', '🛸 REACT', '🔋 KERNEL'];
-const track = document.getElementById('techTrack');
-techs.forEach(t => {
-    const s = document.createElement('span');
-    s.innerText = t;
-    track.appendChild(s);
-});
-track.innerHTML += track.innerHTML; // Duplicar para scroll infinito
+// Iniciar funciones
+walk();
+updateClock();
+setInterval(updateClock, 1000);
