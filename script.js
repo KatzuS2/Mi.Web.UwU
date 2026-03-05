@@ -1,141 +1,99 @@
 const audio = document.getElementById('audio');
-const chatBody = document.getElementById('chatBody');
 const progress = document.getElementById('progress');
+const timeLeft = document.getElementById('timeLeft');
+const currentTimeDisplay = document.getElementById('currentTime');
 
-// --- Partículas 0/1 Blancas (Intactas) ---
+// --- Partículas 0/1 Blancas Neon ---
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 let particles = [];
 
 window.addEventListener('mousemove', e => {
-    for(let i=0; i<2; i++) {
-        particles.push({
-            x: e.clientX, y: e.clientY,
-            text: Math.random() > 0.5 ? '0' : '1',
-            alpha: 1, speed: Math.random() * 2 + 1
-        });
-    }
+    particles.push({ x: e.clientX, y: e.clientY, text: Math.random() > 0.5 ? '0' : '1', alpha: 1 });
 });
 
-function draw() {
-    ctx.clearRect(0,0,W,H);
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
     ctx.fillStyle = "rgba(255,255,255,0.8)";
-    ctx.font = "14px monospace";
+    ctx.font = "12px monospace";
     particles.forEach((p, i) => {
         ctx.fillText(p.text, p.x, p.y);
-        p.y -= p.speed; p.alpha -= 0.01;
+        p.y -= 1; p.alpha -= 0.01;
         if(p.alpha <= 0) particles.splice(i, 1);
     });
-    requestAnimationFrame(draw);
+    requestAnimationFrame(drawParticles);
 }
-draw();
+drawParticles();
 
-// --- Lógica de Radio Funcional ---
-const radioStations = {
-    anime: [
-        { name: "Anime Hits", url: "https://stream.zeno.fm/7q8hn6vt9mruv" },
-        { name: "J-Pop Power", url: "http://powerplayjpop.stream.com/live" }
-    ],
-    lofi: [
-        { name: "Lofi Girl Direct", url: "https://ais-sa2.cdnstream1.com/2447_128.mp3" }
-    ]
-};
-
-function updateRadioList() {
-    const cat = document.getElementById('radioCategory').value;
-    const select = document.getElementById('radioSelect');
-    select.innerHTML = '<option value="">ESTACIÓN</option>';
-    if (radioStations[cat]) {
-        radioStations[cat].forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s.url;
-            opt.textContent = s.name;
-            select.appendChild(opt);
-        });
-    }
-}
-
-function changeRadio() {
-    const url = document.getElementById('radioSelect').value;
-    if(!url) return;
-    const ytContainer = document.querySelectorAll('.yt-chat-container');
-    ytContainer.forEach(e => e.remove()); // Quitar videos previos
-    audio.src = url;
-    audio.play().catch(() => appendMessage("Error al conectar con la radio.", "ai"));
-}
-
-// --- Reproductor de Música e Incrustación ---
+// --- Buscador y Tiempo ---
 function loadAudio() {
-    const url = document.getElementById('audioURL').value.trim();
-    if(!url) return;
-    audio.pause();
-
-    if(url.includes('youtube.com') || url.includes('youtu.be')) {
-        const id = url.includes('v=') ? new URL(url).searchParams.get('v') : url.split('/').pop();
-        const videoElement = document.createElement('div');
-        videoElement.className = 'yt-chat-container';
-        videoElement.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media"></iframe>`;
-        appendMessage('Sintonizando video...', 'ai', videoElement);
+    const val = document.getElementById('audioURL').value;
+    if(val.includes('youtube.com') || val.includes('youtu.be')) {
+        const id = val.includes('v=') ? new URL(val).searchParams.get('v') : val.split('/').pop();
+        appendMessage("Cargando video de YouTube en el mainframe...", "ai");
+        // Aquí podrías insertar un iframe pequeño si quisieras verlo
     } else {
-        audio.src = url;
-        audio.play().catch(e => appendMessage("Link no compatible.", "ai"));
+        audio.src = val;
+        audio.play();
     }
 }
 
-// Actualización de la Barra de Progreso Neón
 audio.ontimeupdate = () => {
-    if(audio.duration) {
-        const percentage = (audio.currentTime / audio.duration) * 100;
-        progress.style.width = percentage + '%';
-    }
+    const p = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = p + '%';
+    
+    // Cálculos de tiempo
+    const current = formatTime(audio.currentTime);
+    const total = formatTime(audio.duration - audio.currentTime);
+    currentTimeDisplay.innerText = current;
+    timeLeft.innerText = "-" + total;
 };
 
-// Controles Básicos
-document.getElementById('playBtn').onclick = () => audio.play();
-document.getElementById('pauseBtn').onclick = () => audio.pause();
+function formatTime(secs) {
+    if (isNaN(secs)) return "00:00";
+    let m = Math.floor(secs / 60), s = Math.floor(secs % 60);
+    return (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+}
 
-// --- Wikipedia IA (Intacta) ---
+// --- Chat IA + Mascota ---
+function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+
 async function sendMessage() {
     const input = document.getElementById('userInput');
-    const query = input.value.trim();
-    if(!query) return;
-    appendMessage(query, 'user');
+    const msg = input.value.trim().toLowerCase();
+    if(!msg) return;
+
+    appendMessage(input.value, 'user');
     input.value = '';
 
-    try {
-        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-        const data = await res.json();
-        appendMessage(data.extract || "No encontré datos.", 'ai');
-    } catch {
-        appendMessage("Error de conexión.", 'ai');
+    // Respuesta especial de la mascota
+    if(msg.includes('como estas') || msg.includes('comiste') || msg.includes('zorro')) {
+        setTimeout(() => {
+            const petReplies = [
+                "¡Miau! Estoy muy feliz de verte. (◕ᴥ◕)",
+                "¡Purr! Ya comí unos bits de datos muy ricos.",
+                "Estoy listo para jugar por la pantalla. ¡Mira cómo corro!",
+                "¡Miau! Me siento muy ciber-kawaii hoy."
+            ];
+            appendMessage(petReplies[Math.floor(Math.random()*petReplies.length)], 'ai');
+        }, 1000);
+    } else {
+        // Respuesta de Wikipedia normal
+        try {
+            const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(msg)}`);
+            const data = await res.json();
+            appendMessage(data.extract || "No encontré esa info, pero mi colita dice que es interesante.", 'ai');
+        } catch { appendMessage("Error de conexión al cerebro central.", 'ai'); }
     }
 }
 
-function appendMessage(txt, cls, element = null) {
+function appendMessage(txt, cls) {
+    const b = document.getElementById('chatBody');
     const d = document.createElement('div');
-    d.className = 'msg ' + cls;
-    d.innerHTML = `<b>${cls.toUpperCase()}:</b> ${txt}`;
-    if (element) d.appendChild(element);
-    chatBody.appendChild(d);
-    chatBody.scrollTop = chatBody.scrollHeight;
+    d.className = `msg ${cls}`;
+    d.innerText = txt;
+    b.appendChild(d);
+    b.scrollTop = b.scrollHeight;
 }
-
-// --- Generación de Marquesina de Tecnologías Luminosas ---
-const techs = ['HTML5', 'CSS3', 'JavaScript', 'Python', 'React', 'Node.js', 'API Rest', 'Cybersecurity', 'AI', 'Blockchain', 'Cloud', 'Git'];
-const techTrack = document.getElementById('techTrack');
-
-techs.forEach(t => {
-    const div = document.createElement('div');
-    div.className = 'tech-item';
-    div.innerText = t;
-    // Colores Neón Aleatorios
-    const hue = Math.random() * 360;
-    div.style.color = `hsl(${hue}, 100%, 75%)`;
-    techTrack.appendChild(div);
-});
-
-// Duplicar para scroll infinito
-const clone = techTrack.innerHTML;
-techTrack.innerHTML += clone;
