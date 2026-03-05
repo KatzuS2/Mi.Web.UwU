@@ -1,45 +1,71 @@
 :root {
-    --pink: #ff33cc;   /* Rosa para UwU y Botones */
-    --blue: #33ccff;   /* Azul para Bordes y Ondas */
-    --purple: #5a32a8; /* Violeta para el Zorrito */
+    --pink: #ff33cc; --blue: #33ccff; --purple: #5a32a8;
 }
 
-body { background: #05000a; margin: 0; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
-
-/* ███ FONDO (image_5.png) ███ */
-.main-bg { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; z-index: -1; }
-.uwu-text { font-size: 110px; color: var(--pink); font-weight: bold; text-shadow: 0 0 25px var(--pink); }
-.heart-neon { 
-    width: 55px; height: 55px; background: var(--pink); transform: rotate(-45deg); 
-    position: relative; margin-left: 35px; box-shadow: 0 0 35px var(--pink);
-    animation: heartBeat 1.4s infinite ease-in-out;
+body {
+    background: #05000a; margin: 0; overflow: hidden;
+    font-family: 'Consolas', monospace; color: white;
 }
-.heart-neon::before, .heart-neon::after { content: ""; width: 55px; height: 55px; background: var(--pink); border-radius: 50%; position: absolute; }
-.heart-neon::before { top: -28px; left: 0; }
-.heart-neon::after { left: 28px; top: 0; }
-@keyframes heartBeat { 0%, 100% { transform: scale(1) rotate(-45deg); } 50% { transform: scale(1.15) rotate(-45deg); } }
 
-/* ███ MASCOTA (image_6.png) ███ */
-.cyber-fox { 
-    position: fixed; width: 95px; height: 90px; background: var(--purple); 
-    border-radius: 20px 20px 45px 45px; border: 2.5px solid var(--blue); 
-    box-shadow: 0 0 18px var(--blue); z-index: 100; cursor: pointer;
+/* ███ FONDO UWU + CORAZÓN (image_5.png STYLE) ███ */
+.glass-bg {
+    position: fixed; inset: 0; z-index: -2;
+    display: flex; justify-content: center; align-items: center;
 }
-.ear-l, .ear-r { position: absolute; top: -25px; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 28px solid var(--purple); }
-.ear-l { left: 8px; transform: rotate(-12deg); } .ear-r { right: 8px; transform: rotate(12deg); }
-.eyes-container { display: flex; gap: 22px; margin-top: 35px; justify-content: center; }
-.eye { width: 13px; height: 21px; background: #000; border-radius: 50%; box-shadow: 0 0 6px #fff; animation: blink 4.5s infinite; }
-@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+.text-uwu {
+    font-size: 120px; color: var(--pink); font-weight: bold;
+    text-shadow: 0 0 20px var(--pink), 0 0 40px var(--pink);
+}
+.heart-neon {
+    display: inline-block; width: 60px; height: 60px; background: var(--pink);
+    transform: rotate(-45deg); position: relative; margin-left: 40px;
+    box-shadow: 0 0 30px var(--pink); animation: heartBeat 1.5s infinite;
+}
+.heart-neon::before, .heart-neon::after {
+    content: ""; width: 60px; height: 60px; background: var(--pink);
+    border-radius: 50%; position: absolute;
+}
+.heart-neon::before { top: -30px; left: 0; }
+.heart-neon::after { left: 30px; top: 0; }
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.2) rotate(-45deg); }
+}
 
-/* ███ REPRODUCTOR (image_4.png) ███ */
-.neon-player { 
-    position: fixed; bottom: 0; width: 100%; height: 80px; background: rgba(0,0,0,0.92); 
-    border-top: 2.5px solid var(--blue); display: flex; align-items: center; justify-content: space-around; 
-    box-shadow: 0 -5px 25px rgba(51, 204, 255, 0.4);
+/* ███ REPRODUCTOR TOP (image_4.png STYLE) ███ */
+.top-player {
+    position: fixed; top: 0; width: 100%; height: 75px;
+    background: rgba(0, 0, 0, 0.85); border-bottom: 2px solid var(--blue);
+    box-shadow: 0 5px 20px rgba(51, 204, 255, 0.4); z-index: 1000;
 }
-.txt-main { color: var(--pink); font-weight: bold; text-shadow: 0 0 8px var(--pink); }
-.main-play { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid var(--pink); background: none; color: var(--pink); box-shadow: 0 0 12px var(--pink); cursor: pointer; }
-.bar { width: 4px; height: 18px; background: var(--blue); animation: audioWave 0.7s infinite alternate; margin: 0 2px; }
-@keyframes audioWave { from { height: 6px; } to { height: 24px; } }
-.radio-badge { border: 1.5px solid var(--blue); padding: 5px 12px; border-radius: 6px; color: var(--blue); font-size: 13px; }
-.clock { color: var(--pink); font-family: monospace; font-size: 16px; }
+.player-content { display: flex; align-items: center; justify-content: space-around; height: 100%; }
+.main-title { color: var(--pink); font-weight: bold; text-shadow: 0 0 10px var(--pink); display: block; }
+.btn-play {
+    width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--pink);
+    background: none; color: var(--pink); cursor: pointer; box-shadow: 0 0 15px var(--pink);
+}
+
+/* ███ MASCOTA (image_6.png STYLE) ███ */
+.cyber-pet {
+    position: fixed; width: 85px; height: 80px; background: var(--purple);
+    border-radius: 20px 20px 40px 40px; border: 2px solid var(--blue);
+    box-shadow: 0 0 20px var(--blue); z-index: 500; cursor: grab;
+}
+.eye { width: 12px; height: 20px; background: #000; border-radius: 50%; animation: blink 4s infinite; }
+@keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+
+/* ███ CHAT CUADRADO NEÓN ███ */
+.ai-chat-box {
+    position: fixed; right: 25px; top: 100px; width: 320px;
+    background: rgba(5, 0, 10, 0.9); border: 2px solid var(--pink);
+    box-shadow: 0 0 15px var(--pink); border-radius: 0; z-index: 800;
+}
+.chat-header { background: var(--pink); color: black; padding: 8px; font-weight: bold; text-align: center; }
+.chat-display { height: 250px; overflow-y: auto; padding: 10px; font-size: 13px; color: var(--pink); }
+
+/* ███ PARTÍCULAS 0 Y 1 ███ */
+.particle {
+    position: fixed; color: var(--blue); font-size: 12px;
+    pointer-events: none; z-index: 9999; animation: fadeOut 1s forwards;
+}
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
