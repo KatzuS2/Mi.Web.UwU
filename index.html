@@ -1,61 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber UwU Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber UwU Interface</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="main-bg">
-    <div class="uwu-container">
-        <span class="uwu-text">UwU</span>
-        <div class="heart-neon"></div>
-    </div>
-</div>
-
-<div id="pet" class="cyber-fox">
-    <div class="fox-ears">
-        <div class="ear-l"></div>
-        <div class="ear-r"></div>
-    </div>
-    <div class="fox-face">
-        <div class="eyes-container">
-            <div class="eye"></div>
-            <div class="eye"></div>
-        </div>
-        <div class="blush"></div>
-    </div>
-    <div class="fox-tail"></div>
-</div>
-
-<div class="neon-player">
-    <div class="p-section info">
-        <div class="mini-cat-icon"></div>
-        <div>
-            <div class="txt-main">NEON DREAMS</div>
-            <div class="txt-sub">KAWAII ★ STARS</div>
+    <div class="main-bg">
+        <div class="uwu-wrapper">
+            <span class="uwu-text">UwU</span>
+            <div class="heart-neon"></div>
         </div>
     </div>
-    
-    <div class="p-section audio-waves">
-        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+
+    <div id="pet" class="cyber-fox">
+        <div class="fox-ears">
+            <div class="ear-l"></div>
+            <div class="ear-r"></div>
+        </div>
+        <div class="fox-face">
+            <div class="eyes-container">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="blush"></div>
+        </div>
+        <div class="fox-tail"></div>
     </div>
 
-    <div class="p-section controls">
-        <button class="ctrl-btn">⏮</button>
-        <button id="playBtn" class="play-btn">▶</button>
-        <button class="ctrl-btn">⏭</button>
+    <div class="neon-player">
+        <div class="p-section info">
+            <div class="mini-avatar"></div>
+            <div class="track-data">
+                <div class="txt-main">NEON DREAMS</div>
+                <div class="txt-sub">KAWAII ★ STARS</div>
+            </div>
+        </div>
+        <div class="p-section waves">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <div class="p-section controls">
+            <button class="nav-btn">⏮</button>
+            <button id="playBtn" class="main-play">▶</button>
+            <button class="nav-btn">⏭</button>
+        </div>
+        <div class="p-section extra">
+            <div class="radio-badge">📡 RADIO</div>
+            <div class="clock" id="clock">--:-- --</div>
+        </div>
     </div>
 
-    <div class="p-section extra">
-        <div class="radio-tag">📡 RADIO</div>
-        <div class="time-display" id="clock">10:23 AM</div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
+    <script src="pet.js"></script>
 </body>
 </html>
