@@ -1,30 +1,31 @@
+
 const pet = document.getElementById('pet');
 let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
-let x = tx, y = ty;
+let cx = tx, cy = ty;
 
-function movePet() {
-    // Velocidad ultra lenta (0.008)
-    x += (tx - x) * 0.008; 
-    y += (ty - y) * 0.008;
-    
-    pet.style.left = `${x}px`;
-    pet.style.top = `${y}px`;
-
-    // Girar suavemente
-    pet.style.transform = tx > x ? 'scaleX(-1)' : 'scaleX(1)';
-
-    if (Math.abs(tx - x) < 10) {
+function moveCyberfox() {
+    cx += (tx - cx) * 0.015;
+    cy += (ty - cy) * 0.015;
+    pet.style.left = `${cx}px`;
+    pet.style.top = `${cy}px`;
+    const float = Math.sin(Date.now() * 0.003) * 10;
+    pet.style.transform = `translate(-50%, -50%) translateY(${float}px)`;
+    if (Math.abs(tx - cx) < 15) {
         setTimeout(() => {
-            tx = Math.random() * (window.innerWidth - 100);
-            ty = Math.random() * (window.innerHeight - 250) + 100;
+            tx = Math.random() * (window.innerWidth - 150) + 75;
+            ty = Math.random() * (window.innerHeight - 300) + 150;
         }, 2000);
     }
-    requestAnimationFrame(movePet);
+    requestAnimationFrame(moveCyberfox);
 }
 
-// Marquesina inferior (Bucle de tecnologías)
-const techs = ["HTML5", "CSS3", "JAVASCRIPT", "PYTHON", "REACT", "NODE.JS", "LINUX"];
-const marquee = document.getElementById('marquee');
-marquee.innerHTML = techs.map(t => `<span style="margin-right:50px; color:var(--blue)">${t}</span>`).join('').repeat(3);
+const techs = [
+    {n:"JS", i:"🟨"}, {n:"HTML5", i:"🟧"}, {n:"CSS3", i:"🟦"}, {n:"PYTHON", i:"🐍"}, 
+    {n:"REACT", i:"⚛️"}, {n:"LINUX", i:"🐧"}, {n:"GITHUB", i:"🐙"}, {n:"NODE.JS", i:"🟢"}
+];
 
-movePet();
+const track = document.getElementById('iconTrack');
+const content = techs.map(t => `<div class="tech-item"><span>${t.i}</span> <span>${t.n}</span></div>`).join('');
+track.innerHTML = content + content + content; // Loop perfecto sin saltos
+
+moveCyberfox();
