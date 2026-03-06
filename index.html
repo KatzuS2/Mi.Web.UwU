@@ -10,26 +10,42 @@
     <div id="binaryBg" class="binary-eva-bg"></div>
 
     <header class="neon-player-top">
-        <div class="controls">
-            <button class="n-btn">⏮</button>
-            <button onclick="playMusic()" class="n-btn execute">EXECUTE ⚡</button>
-            <button class="n-btn">⏭</button>
-        </div>
-        <div class="input-area">
-            <input type="text" id="ytLink" placeholder="Pega link de YouTube o ID...">
-        </div>
-        <div class="progress-container">
-            <div id="pBar" class="p-fill"></div>
-            <span id="timer" class="time-code">00:00 REMAINING</span>
+        <div class="player-wrapper">
+            <div class="controls-group">
+                <button class="player-btn"><span>⏮</span></button>
+                <button onclick="playMusic()" class="player-btn execute-btn">
+                    <span class="btn-text">EXECUTE</span>
+                    <span class="bolt">⚡</span>
+                </button>
+                <button class="player-btn"><span>⏭</span></button>
+            </div>
+            
+            <div class="search-bar-wrap">
+                <input type="text" id="ytLink" placeholder="DROP YOUTUBE LINK OR ID HERE...">
+            </div>
+
+            <div class="stats-group">
+                <div class="visualizer-container" id="v-bars">
+                    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+                    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+                    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+                </div>
+                <div class="progress-wrapper">
+                    <div id="pBar" class="p-fill"></div>
+                    <div class="p-bg"></div>
+                </div>
+                <span id="timer" class="time-code">SYSTEM_READY</span>
+            </div>
         </div>
     </header>
 
     <div class="center-stage">
         <div class="breathe-wrap">
             <span class="uwu-cool">UwU</span>
-            <div class="heart-emoji-wrap">
-                <div class="heart-cool"></div>
-                <div class="sparkle s1"></div><div class="sparkle s2"></div>
+            <div class="heart-emoji-container">
+                <span class="heart-main">💖</span>
+                <div class="sparkle s1"></div>
+                <div class="sparkle s2"></div>
             </div>
         </div>
     </div>

@@ -1,4 +1,3 @@
-
 const pet = document.getElementById('pet');
 let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
 let cx = tx, cy = ty;
