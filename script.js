@@ -1,36 +1,56 @@
-// Partículas de 0 y 1 al mover el mouse
-document.addEventListener('mousemove', (e) => {
-    const p = document.createElement('span');
-    p.className = 'particle';
-    p.innerText = Math.round(Math.random());
-    p.style.left = e.pageX + 'px';
-    p.style.top = e.pageY + 'px';
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 1000);
-});
+window.onload = () => {
+    const bg = document.getElementById('binaryBg');
+    bg.innerText = Array(2500).fill(0).map(() => Math.round(Math.random())).join(' ');
+};
 
-// IA de Cyberfox con Wikipedia
-async function sendToIA() {
-    const input = document.getElementById('userInput');
-    const display = document.getElementById('chatDisplay');
-    const query = input.value.trim();
+function playMusic() {
+    const link = document.getElementById('ytLink').value;
+    const container = document.getElementById('videoContainer');
+    const id = link.includes('v=') ? link.split('v=')[1].split('&')[0] : link;
+    if(id) {
+        container.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+        let p = 0;
+        setInterval(() => { if(p < 100) { p += 0.2; document.getElementById('pBar').style.width = p + '%'; } }, 1000);
+    }
+}
+
+async function askWiki() {
+    const query = document.getElementById('userInput').value;
+    const log = document.getElementById('chatDisplay');
     if(!query) return;
-
-    display.innerHTML += `<div>> ${query}</div>`;
-    input.value = '';
-
     try {
         const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
         const data = await res.json();
-        const responseText = data.extract || "¡Miau! No encontré eso en mis circuitos de Wikipedia.";
-        display.innerHTML += `<div style="color:var(--blue)">Cyberfox: ${responseText}</div>`;
-    } catch {
-        display.innerHTML += `<div>Error de conexión...</div>`;
-    }
-    display.scrollTop = display.scrollHeight;
+        log.innerHTML += `<div style="color:var(--cyan)">> ARCHIVE: ${data.extract || 'NO DATA'}</div>`;
+    } catch { log.innerHTML += `<div>Error...</div>`; }
+    log.scrollTop = log.scrollHeight;
 }
 
-// Reloj
-setInterval(() => {
-    document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-}, 1000);
+function talkToFox() {
+    const log = document.getElementById('chatDisplay');
+    const msgs = ["SYNC: COOL_NEON_ACTIVE", "PARTICLES: HYPER_FLUID", "FOX: READY TO DEPLOY"];
+    log.innerHTML += `<div style="color:var(--pink)">> FOX: ${msgs[Math.floor(Math.random()*msgs.length)]}</div>`;
+    log.scrollTop = log.scrollHeight;
+}
+
+// ███ FIX PARTÍCULAS INSTANTÁNEAS (400ms) ███
+document.addEventListener('mousemove', (e) => {
+    const p = document.createElement('span');
+    p.innerText = Math.round(Math.random());
+    p.style.cssText = `
+        position: fixed; left: ${e.clientX}px; top: ${e.clientY}px; 
+        color: #fff; text-shadow: 0 0 10px #fff; pointer-events: none; 
+        font-size: 14px; z-index: 2000; font-family: 'Orbitron', sans-serif;
+    `;
+    document.body.appendChild(p);
+
+    const anim = p.animate([
+        { opacity: 1, transform: 'scale(1) translateY(0)' }, 
+        { opacity: 0, transform: `scale(0.5) translateY(-25px)` }
+    ], {
+        duration: 400, // Vida ultra-corta para limpieza total
+        easing: 'ease-out'
+    });
+
+    anim.onfinish = () => p.remove();
+});
