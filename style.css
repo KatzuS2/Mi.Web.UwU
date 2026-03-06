@@ -1,71 +1,78 @@
 :root {
-    --pink: #ff33cc; --blue: #33ccff; --purple: #5a32a8;
+    --red: #ff0000; --pink: #ff33cc; --cyan: #33ccff; --violet: #5a32a8; --sparkle-gold: #ffeb3b;
+    --neon-pink-glow: 0 0 20px #ff33cc, 0 0 40px #ff33cc;
+    --neon-cyan-glow: 0 0 15px #33ccff, 0 0 30px #33ccff;
 }
 
-body {
-    background: #05000a; margin: 0; overflow: hidden;
-    font-family: 'Consolas', monospace; color: white;
+body { background: #000; margin: 0; overflow: hidden; font-family: 'Orbitron', sans-serif; }
+
+/* FONDO EVANGELION */
+.binary-eva-bg {
+    position: fixed; inset: 0; z-index: -2; opacity: 0.12; color: var(--red);
+    font-size: 16px; transform: rotate(-45deg) scale(2);
+    animation: alertScroll 20s linear infinite; pointer-events: none;
+    word-break: break-all; white-space: pre-wrap;
+}
+@keyframes alertScroll { from { transform: rotate(-45deg) translateY(0); } to { transform: rotate(-45deg) translateY(400px); } }
+
+/* ELEMENTOS CENTRALES: BLANCO CENTRO, NEÓN FUERA */
+.center-stage { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; z-index: -1; }
+.breathe-wrap { display: flex; align-items: center; gap: 50px; animation: breathe 3s infinite ease-in-out; }
+
+.uwu-cool { 
+    font-family: 'Audiowide', cursive; font-size: 140px; 
+    color: #fff; text-shadow: var(--neon-pink-glow); 
 }
 
-/* ███ FONDO UWU + CORAZÓN (image_5.png STYLE) ███ */
-.glass-bg {
-    position: fixed; inset: 0; z-index: -2;
-    display: flex; justify-content: center; align-items: center;
+/* CORAZÓN COOL REDISEÑADO */
+.heart-emoji-wrap { position: relative; width: 100px; height: 90px; }
+.heart-cool { 
+    width: 90px; height: 90px; 
+    background: radial-gradient(circle at center, #fff 10%, var(--pink) 70%, rgba(255, 51, 204, 0) 100%);
+    transform: rotate(-45deg); position: relative; border-radius: 5px; box-shadow: var(--neon-pink-glow); 
 }
-.text-uwu {
-    font-size: 120px; color: var(--pink); font-weight: bold;
-    text-shadow: 0 0 20px var(--pink), 0 0 40px var(--pink);
+.heart-cool::before, .heart-cool::after { 
+    content: ""; width: 90px; height: 90px; 
+    background: radial-gradient(circle at center, #fff 10%, var(--pink) 70%, rgba(255, 51, 204, 0) 100%);
+    border-radius: 50%; position: absolute; 
 }
-.heart-neon {
-    display: inline-block; width: 60px; height: 60px; background: var(--pink);
-    transform: rotate(-45deg); position: relative; margin-left: 40px;
-    box-shadow: 0 0 30px var(--pink); animation: heartBeat 1.5s infinite;
-}
-.heart-neon::before, .heart-neon::after {
-    content: ""; width: 60px; height: 60px; background: var(--pink);
-    border-radius: 50%; position: absolute;
-}
-.heart-neon::before { top: -30px; left: 0; }
-.heart-neon::after { left: 30px; top: 0; }
-@keyframes heartBeat {
-    0%, 100% { transform: scale(1) rotate(-45deg); }
-    50% { transform: scale(1.2) rotate(-45deg); }
-}
+.heart-cool::before { top: -45px; left: 0; } .heart-cool::after { left: 45px; top: 0; }
 
-/* ███ REPRODUCTOR TOP (image_4.png STYLE) ███ */
-.top-player {
-    position: fixed; top: 0; width: 100%; height: 75px;
-    background: rgba(0, 0, 0, 0.85); border-bottom: 2px solid var(--blue);
-    box-shadow: 0 5px 20px rgba(51, 204, 255, 0.4); z-index: 1000;
-}
-.player-content { display: flex; align-items: center; justify-content: space-around; height: 100%; }
-.main-title { color: var(--pink); font-weight: bold; text-shadow: 0 0 10px var(--pink); display: block; }
-.btn-play {
-    width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--pink);
-    background: none; color: var(--pink); cursor: pointer; box-shadow: 0 0 15px var(--pink);
-}
+.sparkle { position: absolute; background: var(--sparkle-gold); border-radius: 50%; box-shadow: 0 0 15px var(--sparkle-gold); animation: shine 1.5s infinite alternate; }
+.sparkle.s1 { width: 15px; height: 15px; top: -20px; right: -10px; }
+.sparkle.s2 { width: 10px; height: 10px; bottom: 0px; left: -15px; }
 
-/* ███ MASCOTA (image_6.png STYLE) ███ */
-.cyber-pet {
-    position: fixed; width: 85px; height: 80px; background: var(--purple);
-    border-radius: 20px 20px 40px 40px; border: 2px solid var(--blue);
-    box-shadow: 0 0 20px var(--blue); z-index: 500; cursor: grab;
-}
-.eye { width: 12px; height: 20px; background: #000; border-radius: 50%; animation: blink 4s infinite; }
-@keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+@keyframes shine { from { opacity: 0.5; } to { opacity: 1; transform: scale(1.1); } }
 
-/* ███ CHAT CUADRADO NEÓN ███ */
-.ai-chat-box {
-    position: fixed; right: 25px; top: 100px; width: 320px;
-    background: rgba(5, 0, 10, 0.9); border: 2px solid var(--pink);
-    box-shadow: 0 0 15px var(--pink); border-radius: 0; z-index: 800;
+/* MASCOTA CYBERFOX */
+.cyber-fox {
+    position: fixed; width: 100px; height: 100px; background: var(--violet); 
+    border-radius: 35px 35px 50px 50px; border: 3px solid var(--cyan); 
+    box-shadow: var(--neon-cyan-glow); z-index: 500; display: flex; flex-direction: column; align-items: center;
 }
-.chat-header { background: var(--pink); color: black; padding: 8px; font-weight: bold; text-align: center; }
-.chat-display { height: 250px; overflow-y: auto; padding: 10px; font-size: 13px; color: var(--pink); }
+.ears { position: absolute; top: -18px; width: 80%; display: flex; justify-content: space-between; }
+.e { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 25px solid var(--violet); filter: drop-shadow(0 -2px 5px var(--cyan)); }
+.eyes { display: flex; gap: 15px; margin-top: 45px; }
+.eye { width: 12px; height: 20px; background: #000; border-radius: 50%; }
 
-/* ███ PARTÍCULAS 0 Y 1 ███ */
-.particle {
-    position: fixed; color: var(--blue); font-size: 12px;
-    pointer-events: none; z-index: 9999; animation: fadeOut 1s forwards;
-}
-@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+/* CHAT Y BOTONES SUAVES */
+.chat-fixed { position: fixed; right: 20px; top: 95px; width: 340px; border: 2.5px solid var(--cyan); background: rgba(0,0,0,0.9); box-shadow: var(--neon-cyan-glow); z-index: 900; }
+.chat-head { color: var(--cyan); padding: 10px; font-weight: bold; text-shadow: var(--neon-cyan-glow); border-bottom: 1px solid var(--cyan); }
+.c-logs { height: 180px; overflow-y: auto; color: var(--cyan); padding: 10px; font-size: 12px; }
+.c-input { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+.c-input input { background: #111; border: 1px solid var(--cyan); color: #fff; padding: 10px; border-radius: 8px; outline: none; }
+.c-btns { display: flex; gap: 10px; }
+.b-wiki, .b-fox { flex: 1; padding: 12px; cursor: pointer; font-family: 'Orbitron'; font-size: 11px; font-weight: bold; border-radius: 25px; background: none; border: 2px solid; transition: 0.3s; }
+.b-wiki { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--neon-cyan-glow); }
+.b-fox { color: var(--pink); border-color: var(--pink); text-shadow: var(--neon-pink-glow); }
+.b-wiki:hover { background: rgba(51,204,255,0.2); }
+.b-fox:hover { background: rgba(255,51,204,0.2); }
+
+/* REPRODUCTOR Y MARQUESINA */
+.neon-player-top { position: fixed; top: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.9); border-bottom: 3px solid var(--pink); display: flex; align-items: center; justify-content: space-around; z-index: 1000; box-shadow: var(--neon-pink-glow); }
+.p-fill { height: 100%; width: 0%; background: var(--cyan); box-shadow: var(--neon-cyan-glow); transition: 0.5s; }
+.tech-marquee { position: fixed; bottom: 0; width: 100%; height: 55px; background: rgba(0,0,0,0.95); border-top: 2px solid var(--cyan); overflow: hidden; display: flex; box-shadow: var(--neon-cyan-glow); }
+.marquee-content { display: flex; white-space: nowrap; animation: scrollFluid 30s linear infinite; }
+.tech-item { display: flex; align-items: center; gap: 10px; padding: 0 50px; font-size: 18px; font-weight: bold; color: #fff; }
+@keyframes scrollFluid { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
