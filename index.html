@@ -1,63 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cyberfox UwU - God Mode</title>
+    <title>Cyberfox: Neon Flow v8.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="binaryBg" class="binary-eva-bg"></div>
 
-    <div class="glass-bg">
-        <div class="uwu-glow">
-            <span class="text-uwu">UwU</span>
-            <div class="heart-neon"></div>
-            <div class="stars-bg"></div>
+    <header class="neon-player-top">
+        <div class="controls">
+            <button class="n-btn">⏮</button>
+            <button onclick="playMusic()" class="n-btn execute">EXECUTE ⚡</button>
+            <button class="n-btn">⏭</button>
         </div>
-    </div>
-
-    <header class="top-player">
-        <div class="player-content">
-            <div class="song-info">
-                <span class="main-title">NEON</span>
-                <span class="sub-title">KAWAII ★ STARS</span>
-            </div>
-            <div class="audio-visualizer">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            </div>
-            <div class="main-controls">
-                <button class="btn-step">⏮</button>
-                <button id="playBtn" class="btn-play">▶</button>
-                <button class="btn-step">⏭</button>
-            </div>
-            <div class="extra-info">
-                <div class="badge-radio">📡 RADIO</div>
-                <div id="clock" class="digital-clock">10:23 AM</div>
-            </div>
+        <div class="input-area">
+            <input type="text" id="ytLink" placeholder="Pega link de YouTube o ID...">
+        </div>
+        <div class="progress-container">
+            <div id="pBar" class="p-fill"></div>
+            <span id="timer" class="time-code">00:00 REMAINING</span>
         </div>
     </header>
 
-    <div id="pet" class="cyber-pet">
-        <div class="ears">
-            <div class="ear-l"></div><div class="ear-r"></div>
-        </div>
-        <div class="face">
-            <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
-            <div class="blush"></div>
-        </div>
-    </div>
-
-    <div class="ai-chat-box">
-        <div class="chat-header">IA DE CYBERFOX UWU</div>
-        <div id="chatDisplay" class="chat-display"></div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Busca en Wikipedia..." onkeypress="if(event.key==='Enter') sendToIA()">
-            <button onclick="sendToIA()">SEND</button>
+    <div class="center-stage">
+        <div class="breathe-wrap">
+            <span class="uwu-cool">UwU</span>
+            <div class="heart-emoji-wrap">
+                <div class="heart-cool"></div>
+                <div class="sparkle s1"></div><div class="sparkle s2"></div>
+            </div>
         </div>
     </div>
 
-    <footer class="tech-footer">
-        <div class="marquee" id="marquee"></div>
+    <div id="pet" class="cyber-fox">
+        <div class="ears"><div class="e"></div><div class="e"></div></div>
+        <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+    </div>
+
+    <div class="chat-fixed">
+        <div class="chat-head">IA SYSTEM: CYBERFOX_COMM</div>
+        <div id="videoContainer" class="v-frame"></div>
+        <div id="chatDisplay" class="c-logs"></div>
+        <div class="c-input">
+            <input type="text" id="userInput" placeholder="Escribe comando...">
+            <div class="c-btns">
+                <button onclick="askWiki()" class="b-wiki">WIKI SEARCH</button>
+                <button onclick="talkToFox()" class="b-fox">TALK TO FOX</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="tech-marquee">
+        <div class="marquee-content" id="iconTrack"></div>
     </footer>
 
     <script src="script.js"></script>
